@@ -701,8 +701,18 @@ public class LinuxNvidiaGpuControl : IGpuControl
 
     private bool CheckAvailability()
     {
-        // Check if nvidia-smi exists and returns successfully
-        var output = RunNvidiaSmi("--query-gpu=name", "--format=csv,noheader");
+        // A runtime-suspended dGPU is present, only asleep, and nvidia-smi would
+        // wake it (RunNvidiaSmi refuses to). Judged by the driver binding instead;
+        // otherwise a laptop that starts with its dGPU asleep never gets GPU control.
+        if (IsDgpuSuspended())
+            return Directory.Exists(NvidiaDriverDir)
+                && Directory.EnumerateDirectories(NvidiaDriverDir).Any(d => Path.GetFileName(d).Contains(':'));
+
+        // Check if nvidia-smi exists and returns successfully. The first query
+        // initialises every NVIDIA GPU; with a second one (eGPU) that takes ~2 s,
+        // past the poll timeout, and a miss here disables GPU control for the
+        // whole session.
+        var output = RunNvidiaSmi("--query-gpu=name", "--format=csv,noheader", SmiDetectTimeoutMs);
         return output != null && output.Trim().Length > 0;
     }
 
@@ -719,6 +729,8 @@ public class LinuxNvidiaGpuControl : IGpuControl
     private static int _smiFailStreak;
     private static DateTime _smiCooldownUntilUtc;
     private const int SmiTimeoutMs = 1200;
+    private const int SmiDetectTimeoutMs = 8000;
+    private const string NvidiaDriverDir = "/sys/bus/pci/drivers/nvidia";
     private const int SmiFailThreshold = 2;
     private static readonly TimeSpan SmiCooldown = TimeSpan.FromSeconds(15);
 
@@ -796,7 +808,7 @@ public class LinuxNvidiaGpuControl : IGpuControl
         _smiCooldownUntilUtc = DateTime.MinValue;
     }
 
-    private static string? RunNvidiaSmi(string query, string format = "")
+    private static string? RunNvidiaSmi(string query, string format = "", int timeoutMs = SmiTimeoutMs)
     {
         // Proactive gate: GPU mode switches pause telemetry so we never spawn
         // an nvidia-smi that turns into a driver holder mid-unbind.
@@ -811,7 +823,7 @@ public class LinuxNvidiaGpuControl : IGpuControl
             return null;
 
         var args = string.IsNullOrEmpty(format) ? query : $"{query} {format}";
-        var result = SysfsHelper.RunCommandWithTimeout("nvidia-smi", args, SmiTimeoutMs);
+        var result = SysfsHelper.RunCommandWithTimeout("nvidia-smi", args, timeoutMs);
 
         if (result == null)
         {
