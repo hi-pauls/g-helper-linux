@@ -35,6 +35,8 @@ public class LinuxAsusWmi : IHardwareControl
     private Thread? _eventThread;
     private volatile bool _eventListening;
     private readonly List<Stream> _eventStreams = new();  // Track open evdev streams for Dispose()
+    private const int HotkeyRetryMinMs = 1000;
+    private const int HotkeyRetryMaxMs = 60000;
 
     private readonly Dictionary<string, int> _lastWrittenInt = new();
     private int _lastThrottlePolicy = int.MinValue;
@@ -1373,13 +1375,30 @@ public class LinuxAsusWmi : IHardwareControl
             if (streams.Count == 0)
             {
                 // With ghelperd the input nodes belong to its account; it forwards
-                // the hotkeys only, never typing.
-                if (PrivilegeHelper.Available && PrivilegeHelper.OpenHotkeys() is { } stream)
+                // the hotkeys only, never typing. It ends the stream when it restarts
+                // or a device goes away (keyd restarting, a keyboard detached), so
+                // reconnect, which also picks up the devices present now.
+                if (PrivilegeHelper.Available)
                 {
-                    Helpers.Logger.WriteLine("Listening for ASUS events through ghelperd");
-                    lock (_eventStreams)
-                        _eventStreams.Add(stream);
-                    ReadEventsFromStream(stream, "ghelperd");
+                    var retryMs = HotkeyRetryMinMs;
+                    while (_eventListening)
+                    {
+                        if (PrivilegeHelper.OpenHotkeys() is { } stream)
+                        {
+                            Helpers.Logger.WriteLine("Listening for ASUS events through ghelperd");
+                            lock (_eventStreams)
+                                _eventStreams.Add(stream);
+                            ReadEventsFromStream(stream, "ghelperd");
+                            lock (_eventStreams)
+                                _eventStreams.Remove(stream);
+                            stream.Dispose();
+                            retryMs = HotkeyRetryMinMs;
+                        }
+                        else
+                            retryMs = Math.Min(retryMs * 2, HotkeyRetryMaxMs);
+                        if (_eventListening)
+                            Thread.Sleep(retryMs);
+                    }
                     return;
                 }
                 Helpers.Logger.WriteLine("WARNING: Could not open any ASUS input devices");
@@ -1442,6 +1461,12 @@ public class LinuxAsusWmi : IHardwareControl
             while (_eventListening)
             {
                 int bytesRead = fs.Read(buffer, 0, 24);
+                if (bytesRead == 0)
+                {
+                    if (_eventListening)
+                        Helpers.Logger.WriteLine($"Event stream {name} closed");
+                    break;
+                }
                 if (bytesRead == 24)
                 {
                     // struct input_event: {timeval(16 bytes), __u16 type, __u16 code, __s32 value}
