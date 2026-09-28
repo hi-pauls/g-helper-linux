@@ -463,18 +463,22 @@ int do_smi(int argc, char **argv)
         fprintf(stderr, "smi: too many args\n");
         return 1;
     }
-    glog(LOG_INFO, "smi %s%s%s", flag, argc == 4 ? " " : "", argc == 4 ? argv[3] : "");
-    char *a[4];
+    glog(LOG_INFO, "smi -i 0 %s%s%s", flag, argc == 4 ? " " : "", argc == 4 ? argv[3] : "");
+    /* -i 0: the laptop's own dGPU, as nvml-clocks uses (PCI order puts it first).
+     * Without it nvidia-smi locks every NVIDIA GPU, an eGPU included. */
+    char *a[6];
     a[0] = "nvidia-smi";
-    a[1] = (char *)flag;
+    a[1] = "-i";
+    a[2] = "0";
+    a[3] = (char *)flag;
     if (argc == 4)
     {
-        a[2] = argv[3];
-        a[3] = NULL;
+        a[4] = argv[3];
+        a[5] = NULL;
     }
     else
     {
-        a[2] = NULL;
+        a[4] = NULL;
     }
     return exec_tool("nvidia-smi", a);
 }
