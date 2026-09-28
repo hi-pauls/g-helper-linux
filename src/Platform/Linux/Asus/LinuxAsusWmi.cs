@@ -1124,6 +1124,10 @@ public class LinuxAsusWmi : IHardwareControl
             written = path != null && SysfsHelper.WriteInt(path, watts);
         }
 
+        // Intel: some firmwares take PL1/PL2 without applying them; RAPL decides.
+        if (IntelRapl.Enforce(attribute, watts))
+            written = true;
+
         // Cache only successful writes. A rejected write must stay retryable,
         // otherwise the dedupe check above blocks it until restart.
         if (!written)

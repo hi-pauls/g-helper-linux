@@ -37,7 +37,7 @@ public sealed class IntelUndervolt
         IsAvailable = true;
     }
 
-    private static bool IsGenuineIntel()
+    internal static bool IsGenuineIntel()
     {
         try
         {
