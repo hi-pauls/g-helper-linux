@@ -214,9 +214,9 @@ dgpu_driver_bound() {
     return 1
 }
 
-# Install modprobe block + udev hot-remove rule so nvidia can never load
-# on the next boot. The udev rule removes the dGPU PCI device on add
-# before any driver binds (a driverless remove is instant and safe).
+# Install the Eco marker + udev hot-remove rule. The udev rule removes the
+# internal dGPU PCI device on add before any driver binds (a driverless
+# remove is instant and safe); external GPUs are left alone.
 install_block_artifacts() {
     if [[ -n "$ROOT" ]]; then
         printf 'blocked\n' > "$MODPROBE_BLOCK" 2>/dev/null || true
@@ -225,24 +225,26 @@ install_block_artifacts() {
         return 0
     fi
     mkdir -p "$(dirname "$MODPROBE_BLOCK")" "$(dirname "$UDEV_BLOCK")" 2>/dev/null || true
+    # Marker only: blocking the driver modules would also block an eGPU that
+    # shares them. The udev rule removes the internal dGPU on its own.
     cat > "$MODPROBE_BLOCK" 2>/dev/null << 'GHELPER_EOF' || true
-# ghelper: block dGPU driver modules for Eco mode
-install nvidia /bin/false
-install nvidia_drm /bin/false
-install nvidia_modeset /bin/false
-install nvidia_uvm /bin/false
-install nvidia_wmi_ec_backlight /bin/false
-install nouveau /bin/false
-install amdgpu /bin/false
+# ghelper: Eco pending - dGPU driver modules are deliberately NOT blocked
+# (an eGPU uses the same modules); 50-ghelper-remove-dgpu.rules removes the
+# internal dGPU instead.
 GHELPER_EOF
     chmod 644 "$MODPROBE_BLOCK" 2>/dev/null || true
     cat > "$UDEV_BLOCK" 2>/dev/null << 'GHELPER_EOF' || true
 # ghelper: remove dGPU PCI devices so no driver can bind
 # boot_vga guard: skip removal when dGPU is the sole display (MUX=0/Ultimate)
+# removable guard: skip external GPUs (eGPU behind Thunderbolt/USB4). A GOTO
+# because udev fails ATTR{removable}!="removable" on internal devices, which
+# lack the attribute.
+ACTION=="add", SUBSYSTEM=="pci", ATTR{removable}=="removable", GOTO="ghelper_remove_dgpu_end"
 ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x030000", ATTR{boot_vga}!="1", ATTR{power/control}="auto", ATTR{remove}="1"
 ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x030200", ATTR{boot_vga}!="1", ATTR{power/control}="auto", ATTR{remove}="1"
 ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{class}=="0x030000", ATTR{boot_vga}!="1", ATTR{power/control}="auto", ATTR{remove}="1"
 ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{class}=="0x030200", ATTR{boot_vga}!="1", ATTR{power/control}="auto", ATTR{remove}="1"
+LABEL="ghelper_remove_dgpu_end"
 GHELPER_EOF
     chmod 644 "$UDEV_BLOCK" 2>/dev/null || true
     udevadm_reload

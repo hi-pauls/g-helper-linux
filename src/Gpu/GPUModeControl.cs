@@ -3192,30 +3192,28 @@ public class GPUModeControl
         return null;
     }
 
-    /// <summary>Content for the modprobe.d block file (vendor-aware: NVIDIA + AMD).</summary>
+    /// <summary>Content for the modprobe.d Eco marker. It blocks no modules: an
+    /// eGPU (Thunderbolt/USB4) shares the dGPU's driver, so a module block
+    /// would take it down too. <see cref="UdevRemoveContent"/> removes the
+    /// internal dGPU instead.</summary>
     private const string ModprobeBlockContent =
-        "# ghelper: block dGPU driver modules so dGPU can be safely disabled on next boot\n" +
-        "# Auto-generated - will be removed after Eco mode is applied\n" +
-        "# Uses 'install /bin/false' (strongest block - prevents loading by ANY means)\n" +
-        "# NVIDIA modules\n" +
-        "install nvidia /bin/false\n" +
-        "install nvidia_drm /bin/false\n" +
-        "install nvidia_modeset /bin/false\n" +
-        "install nvidia_uvm /bin/false\n" +
-        "install nvidia_wmi_ec_backlight /bin/false\n" +
-        "# Open-source NVIDIA driver\n" +
-        "install nouveau /bin/false\n" +
-        "# AMD dGPU driver\n" +
-        "install amdgpu /bin/false\n";
+        "# ghelper: Eco pending - dGPU driver modules are deliberately NOT blocked\n" +
+        "# (an eGPU uses the same modules); 50-ghelper-remove-dgpu.rules removes the\n" +
+        "# internal dGPU instead.\n";
 
-    /// <summary>Content for the udev rule that PCI-removes dGPU devices (NVIDIA + AMD) on add.</summary>
+    /// <summary>Content for the udev rule that PCI-removes internal dGPU devices (NVIDIA + AMD) on add.
+    /// External GPUs (removable, behind Thunderbolt/USB4) are never removed.</summary>
     private const string UdevRemoveContent =
         "# ghelper: remove dGPU PCI devices so no driver can bind\n" +
         "# Auto-generated - will be removed after Eco mode is applied\n" +
+        "# removable guard: skip external GPUs (eGPU behind Thunderbolt/USB4). A GOTO\n" +
+        "# because udev fails ATTR{removable}!=\"removable\" on internal devices, which\n" +
+        "# lack the attribute.\n" +
+        "ACTION==\"add\", SUBSYSTEM==\"pci\", ATTR{removable}==\"removable\", GOTO=\"ghelper_remove_dgpu_end\"\n" +
         "# Remove NVIDIA VGA controller\n" +
-        "ACTION==\"add\", SUBSYSTEM==\"pci\", ATTR{vendor}==\"0x10de\", ATTR{class}==\"0x030000\", ATTR{power/control}=\"auto\", ATTR{remove}=\"1\"\n" +
+        "ACTION==\"add\", SUBSYSTEM==\"pci\", ATTR{vendor}==\"0x10de\", ATTR{class}==\"0x030000\", ATTR{boot_vga}!=\"1\", ATTR{power/control}=\"auto\", ATTR{remove}=\"1\"\n" +
         "# Remove NVIDIA 3D controller\n" +
-        "ACTION==\"add\", SUBSYSTEM==\"pci\", ATTR{vendor}==\"0x10de\", ATTR{class}==\"0x030200\", ATTR{power/control}=\"auto\", ATTR{remove}=\"1\"\n" +
+        "ACTION==\"add\", SUBSYSTEM==\"pci\", ATTR{vendor}==\"0x10de\", ATTR{class}==\"0x030200\", ATTR{boot_vga}!=\"1\", ATTR{power/control}=\"auto\", ATTR{remove}=\"1\"\n" +
         "# Remove NVIDIA Audio devices (HDMI audio on dGPU)\n" +
         "ACTION==\"add\", SUBSYSTEM==\"pci\", ATTR{vendor}==\"0x10de\", ATTR{class}==\"0x040300\", ATTR{power/control}=\"auto\", ATTR{remove}=\"1\"\n" +
         "# Remove NVIDIA USB xHCI Host Controller\n" +
@@ -3227,7 +3225,8 @@ public class GPUModeControl
         "# Remove AMD dGPU 3D controller\n" +
         "ACTION==\"add\", SUBSYSTEM==\"pci\", ATTR{vendor}==\"0x1002\", ATTR{class}==\"0x030200\", ATTR{boot_vga}!=\"1\", ATTR{power/control}=\"auto\", ATTR{remove}=\"1\"\n" +
         "# Remove AMD dGPU Audio devices\n" +
-        "ACTION==\"add\", SUBSYSTEM==\"pci\", ATTR{vendor}==\"0x1002\", ATTR{class}==\"0x040300\", ATTR{power/control}=\"auto\", ATTR{remove}=\"1\"\n";
+        "ACTION==\"add\", SUBSYSTEM==\"pci\", ATTR{vendor}==\"0x1002\", ATTR{class}==\"0x040300\", ATTR{power/control}=\"auto\", ATTR{remove}=\"1\"\n" +
+        "LABEL=\"ghelper_remove_dgpu_end\"\n";
 
     /// <summary>
     /// Push the backend selector marker (/etc/ghelper/backend) without

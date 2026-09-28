@@ -55,26 +55,26 @@ case "${1:-}" in
         chmod 644 "$BACKEND_DEST"
 
         if [[ "$MODE" == "eco" ]]; then
-            # Modprobe block: strongest form, prevents loading by any means.
+            # Modprobe marker only. Blocking the driver modules would also
+            # block an eGPU (Thunderbolt/USB4) that shares them; the udev
+            # rule below already removes the internal dGPU before any
+            # driver-load rule runs for it.
             cat > "$MODPROBE_DEST" << 'GHELPER_EOF'
-# ghelper: block dGPU driver modules for Eco mode
-# NVIDIA modules
-install nvidia /bin/false
-install nvidia_drm /bin/false
-install nvidia_modeset /bin/false
-install nvidia_uvm /bin/false
-install nvidia_wmi_ec_backlight /bin/false
-# Open-source NVIDIA driver
-install nouveau /bin/false
-# AMD dGPU driver
-install amdgpu /bin/false
+# ghelper: Eco pending - dGPU driver modules are deliberately NOT blocked
+# (an eGPU uses the same modules); 50-ghelper-remove-dgpu.rules removes the
+# internal dGPU instead.
 GHELPER_EOF
             chmod 644 "$MODPROBE_DEST"
 
-            # Udev rule: remove dGPU PCI devices from bus on add.
+            # Udev rule: remove internal dGPU PCI devices from bus on add.
+            # removable guard: external GPUs (Thunderbolt/USB4) are never removed.
             cat > "$UDEV_DEST" << 'GHELPER_EOF'
 # ghelper: remove dGPU PCI devices so no driver can bind
 # boot_vga guard: skip removal when dGPU is the sole display (MUX=0/Ultimate)
+# removable guard: skip external GPUs (eGPU behind Thunderbolt/USB4). A GOTO
+# because udev fails ATTR{removable}!="removable" on internal devices, which
+# lack the attribute.
+ACTION=="add", SUBSYSTEM=="pci", ATTR{removable}=="removable", GOTO="ghelper_remove_dgpu_end"
 # NVIDIA VGA controller
 ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x030000", ATTR{boot_vga}!="1", ATTR{power/control}="auto", ATTR{remove}="1"
 # NVIDIA 3D controller
@@ -91,6 +91,7 @@ ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{class}=="0x030000"
 ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{class}=="0x030200", ATTR{boot_vga}!="1", ATTR{power/control}="auto", ATTR{remove}="1"
 # AMD dGPU Audio
 ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{class}=="0x040300", ATTR{power/control}="auto", ATTR{remove}="1"
+LABEL="ghelper_remove_dgpu_end"
 GHELPER_EOF
             chmod 644 "$UDEV_DEST"
         else
