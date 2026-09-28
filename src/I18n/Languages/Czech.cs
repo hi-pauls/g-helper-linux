@@ -397,6 +397,10 @@ public static class Czech
         // APPEARANCE
         ["appearance_header"] = "Vzhled",
         ["icon_set_label"] = "Sada ikon",
+        ["theme_label"] = "Motiv",
+        ["theme_system"] = "Systém",
+        ["theme_dark"] = "Tmavý",
+        ["theme_light"] = "Světlý",
 
         // FANS WINDOW
         ["fans_title"] = "Ventilátory a napájení",

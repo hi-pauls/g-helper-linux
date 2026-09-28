@@ -6,6 +6,7 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using GHelper.Linux.I18n;
 using GHelper.Linux.Platform.Linux;
+using GHelper.Linux.UI.Styles;
 using static GHelper.Linux.Platform.Linux.SystemInfoCollector;
 
 namespace GHelper.Linux.UI.Views;
@@ -52,7 +53,7 @@ public partial class SystemInfoWindow : Window
         var loading = new TextBlock
         {
             Text = Labels.Get("loading"),
-            Foreground = Brushes.Gray,
+            Foreground = ThemeColors.Brush("GH.ForeMid"),
             Margin = new Thickness(0, 20),
             HorizontalAlignment = HorizontalAlignment.Center
         };

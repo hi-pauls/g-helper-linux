@@ -397,6 +397,10 @@ public static class Spanish
         // APPEARANCE
         ["appearance_header"] = "Apariencia",
         ["icon_set_label"] = "Conjunto de iconos",
+        ["theme_label"] = "Tema",
+        ["theme_system"] = "Sistema",
+        ["theme_dark"] = "Oscuro",
+        ["theme_light"] = "Claro",
 
         // FANS WINDOW
         ["fans_title"] = "Ventiladores y energía",

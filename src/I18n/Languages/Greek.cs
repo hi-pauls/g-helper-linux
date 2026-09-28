@@ -400,6 +400,10 @@ public static class Greek
         // APPEARANCE
         ["appearance_header"] = "Εμφάνιση",
         ["icon_set_label"] = "Σετ εικονιδίων",
+        ["theme_label"] = "Θέμα",
+        ["theme_system"] = "Σύστημα",
+        ["theme_dark"] = "Σκούρο",
+        ["theme_light"] = "Φωτεινό",
 
         // FANS WINDOW
         ["fans_title"] = "Ανεμιστήρες και ισχύς",

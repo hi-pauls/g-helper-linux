@@ -1,5 +1,7 @@
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -9,6 +11,7 @@ using GHelper.Linux.Display;
 using GHelper.Linux.Gpu;
 using GHelper.Linux.I18n;
 using GHelper.Linux.Platform.Linux;
+using GHelper.Linux.UI.Styles;
 using GHelper.Linux.USB;
 
 namespace GHelper.Linux.UI.Views;
@@ -130,6 +133,21 @@ public partial class ExtraWindow : Window
                 selected = i;
         }
         comboIconSet.SelectedIndex = selected;
+
+        string mode = Helpers.AppConfig.GetString(ThemeColors.ConfigKey, "windows") ?? "windows";
+        comboTheme.SelectedItem = comboTheme.Items.OfType<ComboBoxItem>()
+            .FirstOrDefault(i => i.Tag as string == mode) ?? itemThemeSystem;
+    }
+
+    private void ComboTheme_Changed(object? sender, SelectionChangedEventArgs e)
+    {
+        if (_suppressEvents)
+            return;
+        if (comboTheme.SelectedItem is ComboBoxItem { Tag: string mode } && Application.Current is { } app)
+        {
+            Helpers.AppConfig.Set(ThemeColors.ConfigKey, mode);
+            app.RequestedThemeVariant = ThemeColors.FromConfig(mode);
+        }
     }
 
     private void ComboIconSet_Changed(object? sender, SelectionChangedEventArgs e)
@@ -161,6 +179,10 @@ public partial class ExtraWindow : Window
         // Appearance section
         labelAppearanceHeader.Text = Labels.Get("appearance_header");
         labelIconSetLabel.Text = Labels.Get("icon_set_label");
+        labelThemeLabel.Text = Labels.Get("theme_label");
+        itemThemeSystem.Content = Labels.Get("theme_system");
+        itemThemeDark.Content = Labels.Get("theme_dark");
+        itemThemeLight.Content = Labels.Get("theme_light");
 
         // Keyboard Backlight
         headerKbdBacklight.Text = Labels.Get("kbd_backlight_header");

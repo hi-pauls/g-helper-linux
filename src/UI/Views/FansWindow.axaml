@@ -7,14 +7,12 @@
         Height="820"
         MinWidth="600"
         MinHeight="720"
-        WindowStartupLocation="CenterScreen"
-        Background="#1C1C1C"
-        Icon="avares://ghelper/UI/Assets/standard.ico">
+        WindowStartupLocation="CenterScreen"        Icon="avares://ghelper/UI/Assets/standard.ico">
 
     <Grid ColumnDefinitions="350,*">
 
         <!-- ============ LEFT COLUMN: panelSliders ============ -->
-        <Border Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="#2A2A2A">
+        <Border Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="{DynamicResource GH.Divider}">
             <Grid RowDefinitions="Auto,*">
 
                 <!-- TAB NAV -->

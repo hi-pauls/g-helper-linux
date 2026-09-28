@@ -1,7 +1,15 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="GHelper.Linux.App"
-             RequestedThemeVariant="Dark">
+             x:Class="GHelper.Linux.App">
+
+    <!-- RequestedThemeVariant comes from the ui_mode setting (App.Initialize). -->
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://ghelper/UI/Styles/GHelperColors.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
 
     <Application.Styles>
         <FluentTheme />

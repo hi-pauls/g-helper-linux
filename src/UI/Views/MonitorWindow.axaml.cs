@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Threading;
 using GHelper.Linux.Helpers;
 using GHelper.Linux.I18n;
+using GHelper.Linux.UI.Styles;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.Drawing;
@@ -57,14 +58,16 @@ public partial class MonitorWindow : Window
     private static readonly SKColor Orange = SKColor.Parse("#FFA500");
     private static readonly SKColor Gold = SKColor.Parse("#FFD700");
 
-    // Shared dark theme paints
+    // Theme paints, taken when the charts are built; tooltips stay dark in both
     private static readonly SKTypeface SansSerif = SKTypeface.FromFamilyName("sans-serif");
-    private static readonly SolidColorPaint LegendText = new(SKColors.LightGray) { SKTypeface = SansSerif };
+    private static SolidColorPaint LegendText =>
+        new(ThemeColors.IsLight ? new SKColor(48, 48, 48) : SKColors.LightGray) { SKTypeface = SansSerif };
     private static readonly SolidColorPaint LegendBg = new(SKColors.Transparent);
     private static readonly SolidColorPaint TooltipText = new(SKColors.White) { SKTypeface = SansSerif };
     private static readonly SolidColorPaint TooltipBg = new(new SKColor(50, 50, 50));
-    private static readonly SolidColorPaint AxisLabels = new(new SKColor(160, 160, 160)) { SKTypeface = SansSerif };
-    private static readonly SolidColorPaint GridLines = new(new SKColor(60, 60, 60))
+    private static SolidColorPaint AxisLabels =>
+        new(ThemeColors.IsLight ? new SKColor(80, 80, 80) : new SKColor(160, 160, 160)) { SKTypeface = SansSerif };
+    private static SolidColorPaint GridLines => new(ThemeColors.IsLight ? new SKColor(210, 210, 210) : new SKColor(60, 60, 60))
     {
         StrokeThickness = 1,
         PathEffect = new DashEffect([3, 3]),
@@ -128,7 +131,10 @@ public partial class MonitorWindow : Window
         {
             Text = title,
             TextSize = 13,
-            Paint = new SolidColorPaint(new SKColor(240, 240, 240)) { SKTypeface = SansSerif },
+            Paint = new SolidColorPaint(ThemeColors.IsLight ? SKColors.Black : new SKColor(240, 240, 240))
+            {
+                SKTypeface = SansSerif,
+            },
             Padding = new Padding(0, 0, 0, 4),
         };
 #pragma warning restore CS0618

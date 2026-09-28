@@ -400,6 +400,10 @@ public static class Thai
         // APPEARANCE
         ["appearance_header"] = "รูปลักษณ์",
         ["icon_set_label"] = "ชุดไอคอน",
+        ["theme_label"] = "ธีม",
+        ["theme_system"] = "ตามระบบ",
+        ["theme_dark"] = "มืด",
+        ["theme_light"] = "สว่าง",
 
         // FANS WINDOW
         ["fans_title"] = "พัดลมและพลังงาน",

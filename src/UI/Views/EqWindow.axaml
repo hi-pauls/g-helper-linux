@@ -7,9 +7,7 @@
         Height="380"
         MinWidth="500"
         MinHeight="280"
-        WindowStartupLocation="CenterScreen"
-        Background="#1C1C1C"
-        Icon="avares://ghelper/UI/Assets/favicon.ico">
+        WindowStartupLocation="CenterScreen"        Icon="avares://ghelper/UI/Assets/favicon.ico">
     <Grid RowDefinitions="*,Auto" Margin="10">
         <Border Grid.Row="0" Classes="panel" Padding="6">
             <ctrl:EqResponseView x:Name="eqView" />

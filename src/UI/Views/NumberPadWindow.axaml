@@ -7,9 +7,7 @@
         MinWidth="320"
         MinHeight="300"
         WindowStartupLocation="CenterScreen"
-        CanResize="True"
-        Background="#1C1C1C"
-        Icon="avares://ghelper/UI/Assets/standard.ico">
+        CanResize="True"        Icon="avares://ghelper/UI/Assets/standard.ico">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="12" Spacing="6">

@@ -397,6 +397,10 @@ public static class Ukrainian
         // APPEARANCE
         ["appearance_header"] = "Вигляд",
         ["icon_set_label"] = "Набір іконок",
+        ["theme_label"] = "Тема",
+        ["theme_system"] = "Системна",
+        ["theme_dark"] = "Темна",
+        ["theme_light"] = "Світла",
 
         // FANS WINDOW
         ["fans_title"] = "Вентилятори та живлення",

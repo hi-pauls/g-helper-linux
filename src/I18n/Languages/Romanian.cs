@@ -397,6 +397,10 @@ public static class Romanian
         // APPEARANCE
         ["appearance_header"] = "Aspect",
         ["icon_set_label"] = "Set de pictograme",
+        ["theme_label"] = "Temă",
+        ["theme_system"] = "Sistem",
+        ["theme_dark"] = "Întunecată",
+        ["theme_light"] = "Luminoasă",
 
         // FANS WINDOW
         ["fans_title"] = "Ventilatoare și alimentare",

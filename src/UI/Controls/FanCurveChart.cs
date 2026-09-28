@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
 using GHelper.Linux.I18n;
+using GHelper.Linux.UI.Styles;
 
 namespace GHelper.Linux.UI.Controls;
 
@@ -79,13 +80,11 @@ public class FanCurveChart : Control
 
     private int _dragIndex = -1;
 
-    // Colors matching G-Helper
-    private static readonly IBrush BackgroundBrush = new SolidColorBrush(Color.Parse("#232323"));
-    private static readonly IBrush GridBrush = new SolidColorBrush(Color.Parse("#464646"));
-    private static readonly IBrush AxisBrush = new SolidColorBrush(Color.Parse("#666666"));
-    private static readonly IBrush LabelBrush = new SolidColorBrush(Color.Parse("#A0A0A0"));
-    private static readonly Pen GridPen = new(GridBrush, 1);
-    private static readonly Pen AxisPen = new(AxisBrush, 1);
+    // Colors matching G-Helper, resolved per render so a theme switch applies
+    private static IBrush BackgroundBrush => ThemeColors.Brush("GH.ChartBack");
+    private static IBrush LabelBrush => ThemeColors.Brush("GH.ForeDim");
+    private static Pen GridPen => new(ThemeColors.Brush("GH.ChartGrid"), 1);
+    private static Pen AxisPen => new(ThemeColors.Brush("GH.ChartAxis"), 1);
 
     public event EventHandler<byte[]>? CurveChanged;
 
@@ -97,7 +96,8 @@ public class FanCurveChart : Control
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
-        if (change.Property == CurveDataProperty || change.Property == DisabledProperty)
+        if (change.Property == CurveDataProperty || change.Property == DisabledProperty
+            || change.Property == ThemeVariantScope.ActualThemeVariantProperty)
             InvalidateVisual();
     }
 
@@ -135,14 +135,13 @@ public class FanCurveChart : Control
         // Disabled overlay - drawn when firmware is controlling fans (pwm_enable != 1)
         if (Disabled)
         {
-            var overlayBrush = new SolidColorBrush(Color.Parse("#CC1C1C1C")); // 80% opaque dark
-            context.FillRectangle(overlayBrush, bounds);
+            context.FillRectangle(ThemeColors.Brush("GH.ChartOverlay"), bounds);
 
             var overlayText = new FormattedText(Labels.Get("firmware_control"),
                 System.Globalization.CultureInfo.InvariantCulture,
                 FlowDirection.LeftToRight,
                 new Typeface("Segoe UI, Ubuntu, sans-serif", FontStyle.Normal, FontWeight.SemiBold),
-                16, new SolidColorBrush(Color.Parse("#888888")));
+                16, ThemeColors.Brush("GH.ForeMuted"));
             context.DrawText(overlayText,
                 new Point((bounds.Width - overlayText.Width) / 2,
                           (bounds.Height - overlayText.Height) / 2));
@@ -214,7 +213,7 @@ public class FanCurveChart : Control
     {
         var data = CurveData!;
         var pointBrush = LineColor;
-        var highlightBrush = new SolidColorBrush(Color.Parse("#FFFFFF"));
+        var highlightBrush = ThemeColors.Brush("GH.Fore");
 
         for (int i = 0; i < PointCount; i++)
         {

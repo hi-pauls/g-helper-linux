@@ -1,0 +1,95 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Theme palette. Dark is G-Helper's exact scheme (RForm.cs); light follows
+        the Windows original's light mode, which uses system colours: window
+        Control (#F0F0F0), buttons ControlLightLight (#FFFFFF), text ControlText.
+        Panels sit between window and buttons here, so light panels are a grey
+        the white buttons stand out from. Accents keep their hue; the accent blue
+        darkens in light mode, as #4CC2FF text is unreadable on white.
+        Code-drawn controls read these through UI.Styles.ThemeColors.
+    -->
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="GH.WindowBack" Color="#1C1C1C" />
+            <SolidColorBrush x:Key="GH.PanelBack" Color="#262626" />
+            <SolidColorBrush x:Key="GH.RowBack" Color="#2A2A2A" />
+            <SolidColorBrush x:Key="GH.RowBackAlt" Color="#232323" />
+            <SolidColorBrush x:Key="GH.InsetBack" Color="#1F1F1F" />
+            <SolidColorBrush x:Key="GH.ButtonBack" Color="#373737" />
+            <SolidColorBrush x:Key="GH.ButtonHover" Color="#454545" />
+            <SolidColorBrush x:Key="GH.ButtonBorder" Color="Transparent" />
+            <SolidColorBrush x:Key="GH.Fore" Color="#F0F0F0" />
+            <SolidColorBrush x:Key="GH.ForeSoft" Color="#CCCCCC" />
+            <SolidColorBrush x:Key="GH.ForeDim" Color="#A0A0A0" />
+            <SolidColorBrush x:Key="GH.ForeMuted" Color="#888888" />
+            <SolidColorBrush x:Key="GH.ForeFaint" Color="#666666" />
+            <SolidColorBrush x:Key="GH.ForeLight" Color="#C0C0C0" />
+            <SolidColorBrush x:Key="GH.ForeHint" Color="#999999" />
+            <SolidColorBrush x:Key="GH.ForeMid" Color="#808080" />
+            <SolidColorBrush x:Key="GH.Border" Color="#333333" />
+            <SolidColorBrush x:Key="GH.BorderStrong" Color="#555555" />
+            <SolidColorBrush x:Key="GH.Divider" Color="#2A2A2A" />
+            <SolidColorBrush x:Key="GH.HoverTint" Color="#33FFFFFF" />
+            <SolidColorBrush x:Key="GH.ChartBack" Color="#232323" />
+            <SolidColorBrush x:Key="GH.ChartGrid" Color="#464646" />
+            <SolidColorBrush x:Key="GH.ChartAxis" Color="#666666" />
+            <SolidColorBrush x:Key="GH.ChartOverlay" Color="#CC1C1C1C" />
+            <SolidColorBrush x:Key="GH.Accent" Color="#4CC2FF" />
+            <SolidColorBrush x:Key="GH.AccentHover" Color="#5FCDFF" />
+            <SolidColorBrush x:Key="GH.AccentPressed" Color="#3AAEEF" />
+            <SolidColorBrush x:Key="GH.ActiveBack" Color="#3A2A24" />
+            <SolidColorBrush x:Key="GH.ActiveHover" Color="#4A3530" />
+            <SolidColorBrush x:Key="GH.OnBack" Color="#1E3328" />
+            <SolidColorBrush x:Key="GH.AudioCard" Color="#0F1419" />
+            <SolidColorBrush x:Key="GH.AudioTrack" Color="#202428" />
+            <SolidColorBrush x:Key="GH.AudioTile" Color="#262A30" />
+            <SolidColorBrush x:Key="GH.AudioTileBorder" Color="#3F4248" />
+            <SolidColorBrush x:Key="GH.ScrollTrack" Color="#2A2A2A" />
+            <SolidColorBrush x:Key="GH.ScrollThumb" Color="#5A5A5A" />
+            <SolidColorBrush x:Key="GH.ScrollThumbHover" Color="#7A7A7A" />
+            <SolidColorBrush x:Key="GH.ScrollThumbPressed" Color="#909090" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="GH.WindowBack" Color="#F0F0F0" />
+            <SolidColorBrush x:Key="GH.PanelBack" Color="#E4E4E4" />
+            <SolidColorBrush x:Key="GH.RowBack" Color="#EAEAEA" />
+            <SolidColorBrush x:Key="GH.RowBackAlt" Color="#F4F4F4" />
+            <SolidColorBrush x:Key="GH.InsetBack" Color="#F7F7F7" />
+            <SolidColorBrush x:Key="GH.ButtonBack" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="GH.ButtonHover" Color="#F3F3F3" />
+            <SolidColorBrush x:Key="GH.ButtonBorder" Color="#CFCFCF" />
+            <SolidColorBrush x:Key="GH.Fore" Color="#000000" />
+            <SolidColorBrush x:Key="GH.ForeSoft" Color="#303030" />
+            <SolidColorBrush x:Key="GH.ForeDim" Color="#505050" />
+            <SolidColorBrush x:Key="GH.ForeMuted" Color="#666666" />
+            <SolidColorBrush x:Key="GH.ForeFaint" Color="#8C8C8C" />
+            <SolidColorBrush x:Key="GH.ForeLight" Color="#383838" />
+            <SolidColorBrush x:Key="GH.ForeHint" Color="#5E5E5E" />
+            <SolidColorBrush x:Key="GH.ForeMid" Color="#6A6A6A" />
+            <SolidColorBrush x:Key="GH.Border" Color="#D4D4D4" />
+            <SolidColorBrush x:Key="GH.BorderStrong" Color="#B4B4B4" />
+            <SolidColorBrush x:Key="GH.Divider" Color="#D4D4D4" />
+            <SolidColorBrush x:Key="GH.HoverTint" Color="#14000000" />
+            <SolidColorBrush x:Key="GH.ChartBack" Color="#FAFAFA" />
+            <SolidColorBrush x:Key="GH.ChartGrid" Color="#DDDDDD" />
+            <SolidColorBrush x:Key="GH.ChartAxis" Color="#A6A6A6" />
+            <SolidColorBrush x:Key="GH.ChartOverlay" Color="#CCF0F0F0" />
+            <SolidColorBrush x:Key="GH.Accent" Color="#0A7CC4" />
+            <SolidColorBrush x:Key="GH.AccentHover" Color="#1A8CD8" />
+            <SolidColorBrush x:Key="GH.AccentPressed" Color="#0869A6" />
+            <SolidColorBrush x:Key="GH.ActiveBack" Color="#FCE3DD" />
+            <SolidColorBrush x:Key="GH.ActiveHover" Color="#F9D2C8" />
+            <SolidColorBrush x:Key="GH.OnBack" Color="#DDF3E4" />
+            <SolidColorBrush x:Key="GH.AudioCard" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="GH.AudioTrack" Color="#DDE2E8" />
+            <SolidColorBrush x:Key="GH.AudioTile" Color="#EEF1F5" />
+            <SolidColorBrush x:Key="GH.AudioTileBorder" Color="#C4CAD2" />
+            <SolidColorBrush x:Key="GH.ScrollTrack" Color="#EAEAEA" />
+            <SolidColorBrush x:Key="GH.ScrollThumb" Color="#B0B0B0" />
+            <SolidColorBrush x:Key="GH.ScrollThumbHover" Color="#909090" />
+            <SolidColorBrush x:Key="GH.ScrollThumbPressed" Color="#707070" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

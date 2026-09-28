@@ -400,6 +400,10 @@ public static class ChineseTraditional
         // APPEARANCE
         ["appearance_header"] = "外觀",
         ["icon_set_label"] = "圖示集",
+        ["theme_label"] = "主題",
+        ["theme_system"] = "跟隨系統",
+        ["theme_dark"] = "深色",
+        ["theme_light"] = "淺色",
 
         // FANS WINDOW
         ["fans_title"] = "風扇與功率",

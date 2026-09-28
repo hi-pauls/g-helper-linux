@@ -400,6 +400,10 @@ public static class Macedonian
         // APPEARANCE
         ["appearance_header"] = "Изглед",
         ["icon_set_label"] = "Сет на икони",
+        ["theme_label"] = "Тема",
+        ["theme_system"] = "Систем",
+        ["theme_dark"] = "Темна",
+        ["theme_light"] = "Светла",
 
         // FANS WINDOW
         ["fans_title"] = "Вентилатори и напојување",

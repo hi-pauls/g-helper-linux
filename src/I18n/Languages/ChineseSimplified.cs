@@ -400,6 +400,10 @@ public static class ChineseSimplified
         // APPEARANCE
         ["appearance_header"] = "外观",
         ["icon_set_label"] = "图标集",
+        ["theme_label"] = "主题",
+        ["theme_system"] = "跟随系统",
+        ["theme_dark"] = "深色",
+        ["theme_light"] = "浅色",
 
         // FANS WINDOW
         ["fans_title"] = "风扇与功率",

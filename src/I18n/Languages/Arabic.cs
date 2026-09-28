@@ -400,6 +400,10 @@ public static class Arabic
         // APPEARANCE
         ["appearance_header"] = "المظهر",
         ["icon_set_label"] = "مجموعة الرموز",
+        ["theme_label"] = "السمة",
+        ["theme_system"] = "النظام",
+        ["theme_dark"] = "داكن",
+        ["theme_light"] = "فاتح",
 
         // FANS WINDOW
         ["fans_title"] = "المراوح والطاقة",

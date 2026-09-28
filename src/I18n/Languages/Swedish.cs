@@ -400,6 +400,10 @@ public static class Swedish
         // APPEARANCE
         ["appearance_header"] = "Utseende",
         ["icon_set_label"] = "Ikonuppsättning",
+        ["theme_label"] = "Tema",
+        ["theme_system"] = "System",
+        ["theme_dark"] = "Mörkt",
+        ["theme_light"] = "Ljust",
 
         // FANS WINDOW
         ["fans_title"] = "Fläktar & Kraft",

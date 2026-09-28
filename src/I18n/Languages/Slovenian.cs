@@ -535,6 +535,10 @@ public static class Slovenian
         // APPEARANCE
         ["appearance_header"] = "Videz",
         ["icon_set_label"] = "Nabor ikon",
+        ["theme_label"] = "Tema",
+        ["theme_system"] = "Sistem",
+        ["theme_dark"] = "Temna",
+        ["theme_light"] = "Svetla",
 
         // FANS WINDOW
         ["fans_title"] = "Ventilatorji in napajanje",

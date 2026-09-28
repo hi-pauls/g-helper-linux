@@ -400,6 +400,10 @@ public static class Indonesian
         // APPEARANCE
         ["appearance_header"] = "Tampilan",
         ["icon_set_label"] = "Set Ikon",
+        ["theme_label"] = "Tema",
+        ["theme_system"] = "Sistem",
+        ["theme_dark"] = "Gelap",
+        ["theme_light"] = "Terang",
 
         // FANS WINDOW
         ["fans_title"] = "Kipas & Daya",

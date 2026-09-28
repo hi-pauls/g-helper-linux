@@ -9,9 +9,7 @@
         MinHeight="510"
         WindowStartupLocation="CenterScreen"
         CanResize="True"
-        WindowDecorations="Full"
-        Background="#1C1C1C"
-        Icon="avares://ghelper/UI/Assets/favicon.ico">
+        WindowDecorations="Full"        Icon="avares://ghelper/UI/Assets/favicon.ico">
 
     <Window.Styles>
         <!-- Active button gets accent border (perf, GPU, screen modes) -->

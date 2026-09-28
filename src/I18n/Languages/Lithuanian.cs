@@ -535,6 +535,10 @@ public static class Lithuanian
         // APPEARANCE
         ["appearance_header"] = "Išvaizda",
         ["icon_set_label"] = "Piktogramų rinkinys",
+        ["theme_label"] = "Tema",
+        ["theme_system"] = "Sistema",
+        ["theme_dark"] = "Tamsi",
+        ["theme_light"] = "Šviesi",
 
         // FANS WINDOW
         ["fans_title"] = "Ventiliatoriai ir maitinimas",

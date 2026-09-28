@@ -13,6 +13,7 @@ using Avalonia.Threading;
 using GHelper.Linux.I18n;
 using GHelper.Linux.Install;
 using GHelper.Linux.Platform.Linux;
+using GHelper.Linux.UI.Styles;
 
 namespace GHelper.Linux.UI.Views;
 
@@ -32,10 +33,10 @@ public partial class UpdatesWindow : Window
     private static readonly IBrush ColorGreen = new SolidColorBrush(Color.Parse("#06B48A"));
     private static readonly IBrush ColorRed = new SolidColorBrush(Color.Parse("#FF2020"));
     private static readonly IBrush ColorGray = new SolidColorBrush(Color.Parse("#666666"));
-    private static readonly IBrush ColorWhite = new SolidColorBrush(Color.Parse("#F0F0F0"));
-    private static readonly IBrush ColorDim = new SolidColorBrush(Color.Parse("#999999"));
-    private static readonly IBrush RowBg1 = new SolidColorBrush(Color.Parse("#2A2A2A"));
-    private static readonly IBrush RowBg2 = new SolidColorBrush(Color.Parse("#232323"));
+    private static IBrush ColorWhite => ThemeColors.Brush("GH.Fore");
+    private static IBrush ColorDim => ThemeColors.Brush("GH.ForeHint");
+    private static IBrush RowBg1 => ThemeColors.Brush("GH.RowBack");
+    private static IBrush RowBg2 => ThemeColors.Brush("GH.RowBackAlt");
     private static readonly Geometry ChevronCollapsed = Geometry.Parse("M 0,0 L 0,12 L 12,6 Z");
     private static readonly Geometry ChevronExpanded = Geometry.Parse("M 0,0 L 12,0 L 6,12 Z");
 
@@ -167,7 +168,7 @@ public partial class UpdatesWindow : Window
         {
             Text = SteamShortcuts.UserdataPath() ?? "",
             FontSize = 10,
-            Foreground = new SolidColorBrush(Color.Parse("#888888")),
+            Foreground = ThemeColors.Brush("GH.ForeMuted"),
             FontFamily = new FontFamily("monospace"),
             TextTrimming = TextTrimming.CharacterEllipsis,
         });
@@ -1450,7 +1451,6 @@ public partial class UpdatesWindow : Window
             WindowStartupLocation = WindowStartupLocation.Manual,
             CanResize = false,
             WindowDecorations = WindowDecorations.Full,
-            Background = new SolidColorBrush(Color.Parse("#1C1C1C")),
         };
         try
         { dialog.Icon = owner.Icon; }
@@ -1465,7 +1465,7 @@ public partial class UpdatesWindow : Window
             Text = Labels.Get("update_prompt_title"),
             FontSize = 15,
             FontWeight = FontWeight.Bold,
-            Foreground = new SolidColorBrush(Color.Parse("#F0F0F0")),
+            Foreground = ThemeColors.Brush("GH.Fore"),
         });
 
         root.Children.Add(new TextBlock
@@ -1473,14 +1473,14 @@ public partial class UpdatesWindow : Window
             Text = Labels.Format("update_prompt_message", latestVersion, Helpers.AppConfig.AppVersion),
             TextWrapping = TextWrapping.Wrap,
             FontSize = 13,
-            Foreground = new SolidColorBrush(Color.Parse("#CCCCCC")),
+            Foreground = ThemeColors.Brush("GH.ForeSoft"),
         });
 
         var dontShow = new CheckBox
         {
             Content = Labels.Get("dont_show_again"),
             FontSize = 12,
-            Foreground = new SolidColorBrush(Color.Parse("#999999")),
+            Foreground = ThemeColors.Brush("GH.ForeHint"),
             IsChecked = false,
             Cursor = new Avalonia.Input.Cursor(Avalonia.Input.StandardCursorType.Hand),
         };

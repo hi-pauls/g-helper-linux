@@ -5,9 +5,7 @@
         SizeToContent="Height"
         CanResize="False"
         ShowInTaskbar="False"
-        WindowStartupLocation="CenterOwner"
-        Background="#1C1C1C"
-        Title="Confirm"
+        WindowStartupLocation="CenterOwner"        Title="Confirm"
         Icon="avares://ghelper/UI/Assets/standard.ico">
 
     <Border Margin="20">

@@ -400,6 +400,10 @@ public static class Danish
         // APPEARANCE
         ["appearance_header"] = "Udseende",
         ["icon_set_label"] = "Ikonsæt",
+        ["theme_label"] = "Tema",
+        ["theme_system"] = "System",
+        ["theme_dark"] = "Mørk",
+        ["theme_light"] = "Lys",
 
         // FANS WINDOW
         ["fans_title"] = "Blæsere og strøm",

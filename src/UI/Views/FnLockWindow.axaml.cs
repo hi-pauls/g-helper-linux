@@ -5,6 +5,7 @@ using Avalonia.Layout;
 using GHelper.Linux.Helpers;
 using GHelper.Linux.I18n;
 using GHelper.Linux.Input;
+using GHelper.Linux.UI.Styles;
 
 namespace GHelper.Linux.UI.Views;
 
@@ -204,7 +205,7 @@ public partial class FnLockWindow : Window
             {
                 Text = tagStr,
                 FontSize = 10,
-                Foreground = new Avalonia.Media.SolidColorBrush(Avalonia.Media.Color.Parse("#707070")),
+                Foreground = ThemeColors.Brush("GH.ForeFaint"),
                 VerticalAlignment = VerticalAlignment.Center,
                 Margin = new Thickness(8, 0, 0, 0),
             };
@@ -258,7 +259,7 @@ public partial class FnLockWindow : Window
             {
                 Text = $"F{i + 1}",
                 FontSize = 11,
-                Foreground = new Avalonia.Media.SolidColorBrush(Avalonia.Media.Color.Parse("#A0A0A0")),
+                Foreground = ThemeColors.Brush("GH.ForeDim"),
                 VerticalAlignment = VerticalAlignment.Center,
             };
             Grid.SetColumn(lbl, 0);

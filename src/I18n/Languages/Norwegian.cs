@@ -400,6 +400,10 @@ public static class Norwegian
         // APPEARANCE
         ["appearance_header"] = "Utseende",
         ["icon_set_label"] = "Ikonsett",
+        ["theme_label"] = "Tema",
+        ["theme_system"] = "System",
+        ["theme_dark"] = "Mørk",
+        ["theme_light"] = "Lys",
 
         // FANS WINDOW
         ["fans_title"] = "Vifter og strøm",

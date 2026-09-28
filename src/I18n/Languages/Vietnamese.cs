@@ -397,6 +397,10 @@ public static class Vietnamese
         // APPEARANCE
         ["appearance_header"] = "Giao diện",
         ["icon_set_label"] = "Bộ biểu tượng",
+        ["theme_label"] = "Giao diện",
+        ["theme_system"] = "Hệ thống",
+        ["theme_dark"] = "Tối",
+        ["theme_light"] = "Sáng",
 
         // FANS WINDOW
         ["fans_title"] = "Quạt & Nguồn",

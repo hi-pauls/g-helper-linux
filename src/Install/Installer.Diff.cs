@@ -9,6 +9,7 @@ using Avalonia.Media;
 using GHelper.Linux.Helpers;
 using GHelper.Linux.I18n;
 using GHelper.Linux.Platform.Linux;
+using GHelper.Linux.UI.Styles;
 
 namespace GHelper.Linux.Install;
 
@@ -211,7 +212,6 @@ public static partial class Installer
             WindowStartupLocation = WindowStartupLocation.Manual,
             CanResize = true,
             WindowDecorations = WindowDecorations.Full,
-            Background = new SolidColorBrush(Color.Parse("#1C1C1C")),
         };
         try
         { dialog.Icon = owner?.Icon; }
@@ -224,7 +224,7 @@ public static partial class Installer
             Text = f.Dest,
             FontFamily = new FontFamily("monospace"),
             FontSize = 12,
-            Foreground = new SolidColorBrush(Color.Parse("#CCCCCC")),
+            Foreground = ThemeColors.Brush("GH.ForeSoft"),
             TextTrimming = TextTrimming.CharacterEllipsis,
             Margin = new Thickness(0, 0, 0, 6),
         };
@@ -258,7 +258,7 @@ public static partial class Installer
         {
             Content = Labels.Get("sysfiles_diff_only_compared"),
             FontSize = 12,
-            Foreground = new SolidColorBrush(Color.Parse("#CCCCCC")),
+            Foreground = ThemeColors.Brush("GH.ForeSoft"),
             IsChecked = false,
             Cursor = new Cursor(StandardCursorType.Hand),
             VerticalAlignment = VerticalAlignment.Center,

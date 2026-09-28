@@ -535,6 +535,10 @@ public static class Hindi
         // APPEARANCE
         ["appearance_header"] = "स्वरूप",
         ["icon_set_label"] = "आइकन सेट",
+        ["theme_label"] = "थीम",
+        ["theme_system"] = "सिस्टम",
+        ["theme_dark"] = "डार्क",
+        ["theme_light"] = "लाइट",
 
         // FANS WINDOW
         ["fans_title"] = "पंखे और पावर",

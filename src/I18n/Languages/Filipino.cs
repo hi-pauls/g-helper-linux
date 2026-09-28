@@ -535,6 +535,10 @@ public static class Filipino
         // APPEARANCE
         ["appearance_header"] = "Itsura",
         ["icon_set_label"] = "Icon Set",
+        ["theme_label"] = "Tema",
+        ["theme_system"] = "System",
+        ["theme_dark"] = "Madilim",
+        ["theme_light"] = "Maliwanag",
 
         // FANS WINDOW
         ["fans_title"] = "Mga Fan at Power",

@@ -6,9 +6,7 @@
         Width="420"
         MinWidth="420"
         SizeToContent="Height"
-        WindowStartupLocation="CenterScreen"
-        Background="#1C1C1C"
-        Icon="avares://ghelper/UI/Assets/favicon.ico">
+        WindowStartupLocation="CenterScreen"        Icon="avares://ghelper/UI/Assets/favicon.ico">
     <Border Classes="panel" Padding="14" Margin="10">
         <StackPanel Spacing="14">
             <Grid ColumnDefinitions="*,Auto">
@@ -18,7 +16,7 @@
                                VerticalAlignment="Center" />
                     <TextBlock x:Name="labelHeader"
                                Text="Deep Reverb" FontSize="16"
-                               FontWeight="SemiBold" Foreground="White"
+                               FontWeight="SemiBold" Foreground="{DynamicResource GH.Fore}"
                                VerticalAlignment="Center" />
                 </StackPanel>
                 <Button Grid.Column="1" x:Name="buttonReset" Content="Reset"
@@ -29,7 +27,7 @@
                     <TextBlock Grid.Column="0" x:Name="labelRoomHeader"
                                Text="Room size" Foreground="#AAA" />
                     <TextBlock Grid.Column="1" x:Name="labelRoom" Text="70%"
-                               Foreground="#4CC2FF" />
+                               Foreground="{DynamicResource GH.Accent}" />
                 </Grid>
                 <Slider x:Name="sliderRoom" Minimum="0" Maximum="1000" Value="700"
                         ValueChanged="OnChanged" />
@@ -39,7 +37,7 @@
                     <TextBlock Grid.Column="0" x:Name="labelDampHeader"
                                Text="Damping" Foreground="#AAA" />
                     <TextBlock Grid.Column="1" x:Name="labelDamp" Text="50%"
-                               Foreground="#4CC2FF" />
+                               Foreground="{DynamicResource GH.Accent}" />
                 </Grid>
                 <Slider x:Name="sliderDamp" Minimum="0" Maximum="1000" Value="500"
                         ValueChanged="OnChanged" />
@@ -49,7 +47,7 @@
                     <TextBlock Grid.Column="0" x:Name="labelWidthHeader"
                                Text="Width" Foreground="#AAA" />
                     <TextBlock Grid.Column="1" x:Name="labelWidth" Text="80%"
-                               Foreground="#4CC2FF" />
+                               Foreground="{DynamicResource GH.Accent}" />
                 </Grid>
                 <Slider x:Name="sliderWidth" Minimum="0" Maximum="1000" Value="800"
                         ValueChanged="OnChanged" />
@@ -59,7 +57,7 @@
                     <TextBlock Grid.Column="0" x:Name="labelMixHeader"
                                Text="Mix" Foreground="#AAA" />
                     <TextBlock Grid.Column="1" x:Name="labelMix" Text="35%"
-                               Foreground="#4CC2FF" />
+                               Foreground="{DynamicResource GH.Accent}" />
                 </Grid>
                 <Slider x:Name="sliderMix" Minimum="0" Maximum="1000" Value="350"
                         ValueChanged="OnChanged" />

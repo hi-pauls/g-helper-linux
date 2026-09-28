@@ -9,9 +9,7 @@
         MaxHeight="450"
         SizeToContent="Height"
         WindowStartupLocation="CenterScreen"
-        CanResize="True"
-        Background="#1C1C1C"
-        Icon="avares://ghelper/UI/Assets/standard.ico">
+        CanResize="True"        Icon="avares://ghelper/UI/Assets/standard.ico">
 
     <Window.Styles>
         <Style Selector="ScrollBar:vertical">
@@ -19,18 +17,18 @@
         </Style>
         <Style Selector="ScrollBar /template/ Thumb">
             <Setter Property="RenderTransform" Value="none" />
-            <Setter Property="Background" Value="#5A5A5A" />
+            <Setter Property="Background" Value="{DynamicResource GH.ScrollThumb}" />
             <Setter Property="MinHeight" Value="30" />
         </Style>
         <Style Selector="ScrollBar /template/ Thumb:pointerover">
-            <Setter Property="Background" Value="#7A7A7A" />
+            <Setter Property="Background" Value="{DynamicResource GH.ScrollThumbHover}" />
         </Style>
         <Style Selector="ScrollBar /template/ Thumb:pressed">
-            <Setter Property="Background" Value="#909090" />
+            <Setter Property="Background" Value="{DynamicResource GH.ScrollThumbPressed}" />
         </Style>
         <Style Selector="ScrollBar /template/ Rectangle#TrackRect">
             <Setter Property="Opacity" Value="1" />
-            <Setter Property="Fill" Value="#2A2A2A" />
+            <Setter Property="Fill" Value="{DynamicResource GH.ScrollTrack}" />
         </Style>
     </Window.Styles>
 

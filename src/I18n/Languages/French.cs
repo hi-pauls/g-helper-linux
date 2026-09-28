@@ -397,6 +397,10 @@ public static class French
         // APPEARANCE
         ["appearance_header"] = "Apparence",
         ["icon_set_label"] = "Jeu d'icônes",
+        ["theme_label"] = "Thème",
+        ["theme_system"] = "Système",
+        ["theme_dark"] = "Sombre",
+        ["theme_light"] = "Clair",
 
         // FANS WINDOW
         ["fans_title"] = "Ventilateurs & Alimentation",

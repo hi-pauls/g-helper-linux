@@ -538,6 +538,10 @@ public static class English
         // APPEARANCE
         ["appearance_header"] = "Appearance",
         ["icon_set_label"] = "Icon Set",
+        ["theme_label"] = "Theme",
+        ["theme_system"] = "System",
+        ["theme_dark"] = "Dark",
+        ["theme_light"] = "Light",
 
         // FANS WINDOW
         ["fans_title"] = "Fans & Power",

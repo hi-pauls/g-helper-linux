@@ -1047,13 +1047,11 @@ public partial class MouseWindow : Window
             Height = 130,
             CanResize = false,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            Background = new SolidColorBrush(Color.FromRgb(0x1C, 0x1C, 0x1C)),
         };
 
         var msg = new TextBlock
         {
             Text = Labels.Format("mouse_host_switch_msg_fmt", hostIndex + 1),
-            Foreground = Brushes.White,
             TextWrapping = TextWrapping.Wrap,
             Margin = new Avalonia.Thickness(16, 16, 16, 8),
         };

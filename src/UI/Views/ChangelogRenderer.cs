@@ -8,6 +8,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using GHelper.Linux.Helpers;
 using GHelper.Linux.I18n;
+using GHelper.Linux.UI.Styles;
 
 namespace GHelper.Linux.UI.Views;
 
@@ -18,14 +19,14 @@ namespace GHelper.Linux.UI.Views;
 // owning window can dispose decoded bitmaps when it closes.
 internal static class ChangelogRenderer
 {
-    private static readonly IBrush ColorText = new SolidColorBrush(Color.Parse("#F0F0F0"));
-    private static readonly IBrush ColorDim = new SolidColorBrush(Color.Parse("#999999"));
+    private static IBrush ColorText => ThemeColors.Brush("GH.Fore");
+    private static IBrush ColorDim => ThemeColors.Brush("GH.ForeHint");
     private static readonly IBrush ColorAccent = new SolidColorBrush(Color.Parse("#4A9EFF"));
     private static readonly IBrush ColorSection = new SolidColorBrush(Color.Parse("#06B48A"));
     private static readonly IBrush ColorLink = new SolidColorBrush(Color.Parse("#4A9EFF"));
-    private static readonly IBrush ColorCodeBg = new SolidColorBrush(Color.Parse("#262626"));
-    private static readonly IBrush ColorCodeText = new SolidColorBrush(Color.Parse("#E0E0E0"));
-    private static readonly IBrush ColorImageBg = new SolidColorBrush(Color.Parse("#222222"));
+    private static IBrush ColorCodeBg => ThemeColors.Brush("GH.PanelBack");
+    private static IBrush ColorCodeText => ThemeColors.Brush("GH.Fore");
+    private static IBrush ColorImageBg => ThemeColors.Brush("GH.InsetBack");
     private static readonly FontFamily MonoFont = new("monospace");
 
     public static void Render(List<ChangelogBlock> blocks, StackPanel target, List<Bitmap> bitmapSink)
@@ -42,7 +43,7 @@ internal static class ChangelogRenderer
                     target.Children.Add(new Border
                     {
                         Height = 1,
-                        Background = new SolidColorBrush(Color.Parse("#333333")),
+                        Background = ThemeColors.Brush("GH.Border"),
                         Margin = new Avalonia.Thickness(0, 2, 0, 4),
                     });
                     break;

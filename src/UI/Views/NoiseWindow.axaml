@@ -6,9 +6,7 @@
         Width="420"
         MinWidth="420"
         SizeToContent="Height"
-        WindowStartupLocation="CenterScreen"
-        Background="#1C1C1C"
-        Icon="avares://ghelper/UI/Assets/favicon.ico">
+        WindowStartupLocation="CenterScreen"        Icon="avares://ghelper/UI/Assets/favicon.ico">
     <Border Classes="panel" Padding="14" Margin="10">
         <StackPanel Spacing="14">
             <StackPanel Orientation="Horizontal" Spacing="6"
@@ -17,7 +15,7 @@
                            VerticalAlignment="Center" />
                 <TextBlock x:Name="labelHeader"
                            Text="RNNoise" FontSize="16"
-                           FontWeight="SemiBold" Foreground="White"
+                           FontWeight="SemiBold" Foreground="{DynamicResource GH.Fore}"
                            VerticalAlignment="Center" />
             </StackPanel>
             <TextBlock x:Name="labelDescription"
@@ -26,14 +24,14 @@
             <StackPanel Spacing="4">
                 <TextBlock x:Name="labelVadHeader" Text="Live voice activity" Foreground="#AAA" />
                 <ProgressBar x:Name="meterVad" Minimum="0" Maximum="100" Height="14"
-                             Foreground="#C778DD" Background="#202428" />
-                <TextBlock x:Name="labelVad" Text="0%" Foreground="#4CC2FF" />
+                             Foreground="#C778DD" Background="{DynamicResource GH.AudioTrack}" />
+                <TextBlock x:Name="labelVad" Text="0%" Foreground="{DynamicResource GH.Accent}" />
             </StackPanel>
             <StackPanel Spacing="4">
                 <TextBlock x:Name="labelRedHeader" Text="Noise reduction" Foreground="#AAA" />
                 <ProgressBar x:Name="meterRed" Minimum="0" Maximum="40" Height="14"
-                             Foreground="#FFA500" Background="#202428" />
-                <TextBlock x:Name="labelRed" Text="0 dB" Foreground="#4CC2FF" />
+                             Foreground="#FFA500" Background="{DynamicResource GH.AudioTrack}" />
+                <TextBlock x:Name="labelRed" Text="0 dB" Foreground="{DynamicResource GH.Accent}" />
             </StackPanel>
         </StackPanel>
     </Border>

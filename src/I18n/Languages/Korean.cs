@@ -400,6 +400,10 @@ public static class Korean
         // APPEARANCE
         ["appearance_header"] = "모양",
         ["icon_set_label"] = "아이콘 세트",
+        ["theme_label"] = "테마",
+        ["theme_system"] = "시스템",
+        ["theme_dark"] = "다크",
+        ["theme_light"] = "라이트",
 
         // FANS WINDOW
         ["fans_title"] = "팬 & 전력",

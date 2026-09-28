@@ -397,6 +397,10 @@ public static class Dutch
         // APPEARANCE
         ["appearance_header"] = "Uiterlijk",
         ["icon_set_label"] = "Pictogrammenset",
+        ["theme_label"] = "Thema",
+        ["theme_system"] = "Systeem",
+        ["theme_dark"] = "Donker",
+        ["theme_light"] = "Licht",
 
         // FANS WINDOW
         ["fans_title"] = "Ventilatoren & Vermogen",

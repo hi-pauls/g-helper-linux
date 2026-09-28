@@ -400,6 +400,10 @@ public static class Serbian
         // APPEARANCE
         ["appearance_header"] = "Изглед",
         ["icon_set_label"] = "Сет икона",
+        ["theme_label"] = "Тема",
+        ["theme_system"] = "Систем",
+        ["theme_dark"] = "Тамна",
+        ["theme_light"] = "Светла",
 
         // FANS WINDOW
         ["fans_title"] = "Вентилатори и напајање",

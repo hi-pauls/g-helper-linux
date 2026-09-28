@@ -397,6 +397,10 @@ public static class PortugueseBR
         // APPEARANCE
         ["appearance_header"] = "Aparência",
         ["icon_set_label"] = "Conjunto de ícones",
+        ["theme_label"] = "Tema",
+        ["theme_system"] = "Sistema",
+        ["theme_dark"] = "Escuro",
+        ["theme_light"] = "Claro",
 
         // FANS WINDOW
         ["fans_title"] = "Ventoinhas e energia",

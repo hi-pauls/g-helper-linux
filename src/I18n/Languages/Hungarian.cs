@@ -397,6 +397,10 @@ public static class Hungarian
         // APPEARANCE
         ["appearance_header"] = "Megjelenés",
         ["icon_set_label"] = "Ikonkészlet",
+        ["theme_label"] = "Téma",
+        ["theme_system"] = "Rendszer",
+        ["theme_dark"] = "Sötét",
+        ["theme_light"] = "Világos",
 
         // FANS WINDOW
         ["fans_title"] = "Ventilátorok és teljesítmény",

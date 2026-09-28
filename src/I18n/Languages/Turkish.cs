@@ -397,6 +397,10 @@ public static class Turkish
         // APPEARANCE
         ["appearance_header"] = "Görünüm",
         ["icon_set_label"] = "Simge Seti",
+        ["theme_label"] = "Tema",
+        ["theme_system"] = "Sistem",
+        ["theme_dark"] = "Koyu",
+        ["theme_light"] = "Açık",
 
         // FANS WINDOW
         ["fans_title"] = "Fanlar ve Güç",

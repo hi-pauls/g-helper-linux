@@ -7,16 +7,14 @@
         MinWidth="420"
         SizeToContent="Height"
         CanResize="False"
-        WindowStartupLocation="CenterScreen"
-        Background="#1C1C1C"
-        Icon="avares://ghelper/UI/Assets/favicon.ico">
+        WindowStartupLocation="CenterScreen"        Icon="avares://ghelper/UI/Assets/favicon.ico">
     <Border Classes="panel" Padding="16" Margin="10">
         <StackPanel Spacing="14">
             <StackPanel Orientation="Horizontal" Spacing="8">
                 <ctrl:Icon IconName="gamepad" Width="18" Height="18"
                            VerticalAlignment="Center" />
                 <TextBlock x:Name="labelHeader" Text="Steam" FontSize="16"
-                           FontWeight="SemiBold" Foreground="White"
+                           FontWeight="SemiBold" Foreground="{DynamicResource GH.Fore}"
                            VerticalAlignment="Center" />
             </StackPanel>
             <TextBlock x:Name="labelText" TextWrapping="Wrap"

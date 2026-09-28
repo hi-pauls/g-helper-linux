@@ -135,6 +135,7 @@ public class App : Application
                   ?? UI.Controls.IconSets.Default;
 
         AvaloniaXamlLoader.Load(this);
+        RequestedThemeVariant = UI.Styles.ThemeColors.FromConfig(AppConfig.GetString(UI.Styles.ThemeColors.ConfigKey, null));
     }
 
     public override void OnFrameworkInitializationCompleted()

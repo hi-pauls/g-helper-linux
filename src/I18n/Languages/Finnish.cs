@@ -400,6 +400,10 @@ public static class Finnish
         // APPEARANCE
         ["appearance_header"] = "Ulkoasu",
         ["icon_set_label"] = "Kuvakesarja",
+        ["theme_label"] = "Teema",
+        ["theme_system"] = "Järjestelmä",
+        ["theme_dark"] = "Tumma",
+        ["theme_light"] = "Vaalea",
 
         // FANS WINDOW
         ["fans_title"] = "Tuulettimet ja teho",

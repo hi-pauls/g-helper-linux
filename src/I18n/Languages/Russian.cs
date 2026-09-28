@@ -397,6 +397,10 @@ public static class Russian
         // APPEARANCE
         ["appearance_header"] = "Внешний вид",
         ["icon_set_label"] = "Набор значков",
+        ["theme_label"] = "Тема",
+        ["theme_system"] = "Системная",
+        ["theme_dark"] = "Тёмная",
+        ["theme_light"] = "Светлая",
 
         // FANS WINDOW
         ["fans_title"] = "Вентиляторы и питание",

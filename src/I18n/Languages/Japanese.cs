@@ -400,6 +400,10 @@ public static class Japanese
         // APPEARANCE
         ["appearance_header"] = "外観",
         ["icon_set_label"] = "アイコンセット",
+        ["theme_label"] = "テーマ",
+        ["theme_system"] = "システム",
+        ["theme_dark"] = "ダーク",
+        ["theme_light"] = "ライト",
 
         // FANS WINDOW
         ["fans_title"] = "ファン & 電力",

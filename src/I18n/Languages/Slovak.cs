@@ -535,6 +535,10 @@ public static class Slovak
         // APPEARANCE
         ["appearance_header"] = "Vzhľad",
         ["icon_set_label"] = "Sada ikon",
+        ["theme_label"] = "Motív",
+        ["theme_system"] = "Systém",
+        ["theme_dark"] = "Tmavý",
+        ["theme_light"] = "Svetlý",
 
         // FANS WINDOW
         ["fans_title"] = "Ventilátory a napájanie",

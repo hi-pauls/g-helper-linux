@@ -535,6 +535,10 @@ public static class Latvian
         // APPEARANCE
         ["appearance_header"] = "Izskats",
         ["icon_set_label"] = "Ikonu komplekts",
+        ["theme_label"] = "Motīvs",
+        ["theme_system"] = "Sistēma",
+        ["theme_dark"] = "Tumšs",
+        ["theme_light"] = "Gaišs",
 
         // FANS WINDOW
         ["fans_title"] = "Ventilatori un jauda",

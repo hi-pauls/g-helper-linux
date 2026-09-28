@@ -7,16 +7,14 @@
         MinWidth="500"
         MinHeight="400"
         WindowStartupLocation="CenterOwner"
-        CanResize="True"
-        Background="#1C1C1C"
-        Icon="avares://ghelper/UI/Assets/standard.ico">
+        CanResize="True"        Icon="avares://ghelper/UI/Assets/standard.ico">
 
     <Grid RowDefinitions="Auto,*">
 
         <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="14,10,14,4">
             <TextBlock x:Name="labelTitle" Grid.Column="0"
                        Text="What's new"
-                       Foreground="#F0F0F0" FontSize="16" FontWeight="Bold"
+                       Foreground="{DynamicResource GH.Fore}" FontSize="16" FontWeight="Bold"
                        VerticalAlignment="Center" />
             <Button x:Name="buttonOpenBrowser" Grid.Column="1"
                     Content="Open on GitHub" Click="ButtonOpenBrowser_Click"
@@ -30,7 +28,7 @@
             <StackPanel x:Name="panelBody" Spacing="2">
                 <TextBlock x:Name="labelLoading"
                            Text="Loading..."
-                           Foreground="#999999" FontSize="13"
+                           Foreground="{DynamicResource GH.ForeHint}" FontSize="13"
                            Margin="0,12,0,0" />
             </StackPanel>
         </ScrollViewer>

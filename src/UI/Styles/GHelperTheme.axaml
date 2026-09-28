@@ -2,23 +2,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--
-        G-Helper exact color scheme (from RForm.cs):
-        Dark:  formBack=#1C1C1C  buttonMain=#373737  buttonSecond=#262626  foreMain=#F0F0F0  chartMain=#232323
-        Light: SystemColors defaults
-        
-        We force dark mode and match pixel-perfect.
+        G-Helper colour scheme (from RForm.cs), dark and light: the values live
+        in GHelperColors.axaml and follow the ui_mode setting.
     -->
 
     <Style Selector="Window">
-        <Setter Property="Background" Value="#1C1C1C" />
-        <Setter Property="Foreground" Value="#F0F0F0" />
+        <Setter Property="Background" Value="{DynamicResource GH.WindowBack}" />
+        <Setter Property="Foreground" Value="{DynamicResource GH.Fore}" />
         <Setter Property="FontFamily" Value="Segoe UI, Ubuntu, DejaVu Sans, Liberation Sans, sans-serif" />
         <Setter Property="FontSize" Value="12" />
     </Style>
 
-    <!-- Panel backgrounds matching G-Helper's dark theme -->
     <Style Selector="Border.panel">
-        <Setter Property="Background" Value="#262626" />
+        <Setter Property="Background" Value="{DynamicResource GH.PanelBack}" />
         <Setter Property="CornerRadius" Value="5" />
         <Setter Property="Padding" Value="10" />
         <Setter Property="Margin" Value="3" />
@@ -26,12 +22,12 @@
 
     <!-- Buttons matching RButton.cs rounded style (borderRadius=5) -->
     <Style Selector="Button.ghelper">
-        <Setter Property="Background" Value="#373737" />
-        <Setter Property="Foreground" Value="#F0F0F0" />
+        <Setter Property="Background" Value="{DynamicResource GH.ButtonBack}" />
+        <Setter Property="Foreground" Value="{DynamicResource GH.Fore}" />
         <Setter Property="CornerRadius" Value="5" />
         <Setter Property="Padding" Value="8,6" />
         <Setter Property="BorderThickness" Value="2" />
-        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{DynamicResource GH.ButtonBorder}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -39,30 +35,30 @@
     </Style>
 
     <Style Selector="Button.ghelper:pointerover /template/ ContentPresenter">
-        <Setter Property="Background" Value="#454545" />
+        <Setter Property="Background" Value="{DynamicResource GH.ButtonHover}" />
     </Style>
 
-    <!-- Active state for ghelper buttons - red-orange border + slightly darker
-         fill to match Windows g-helper RButton "activated" appearance
-         (colorTurbo). Used by buttonXGM when XG Mobile is currently enabled. -->
+    <!-- Active state for ghelper buttons - red-orange border + tinted fill to
+         match Windows g-helper RButton "activated" appearance (colorTurbo).
+         Used by buttonXGM when XG Mobile is currently enabled. -->
     <Style Selector="Button.ghelper.ghelper-active">
         <Setter Property="BorderBrush" Value="#E84B2C" />
-        <Setter Property="Background" Value="#3A2A24" />
+        <Setter Property="Background" Value="{DynamicResource GH.ActiveBack}" />
     </Style>
 
     <Style Selector="Button.ghelper.ghelper-active:pointerover /template/ ContentPresenter">
-        <Setter Property="Background" Value="#4A3530" />
+        <Setter Property="Background" Value="{DynamicResource GH.ActiveHover}" />
     </Style>
 
     <!-- Tall mode-selector buttons (perf/GPU) with icon above text -->
     <Style Selector="Button.ghelper-tall">
-        <Setter Property="Background" Value="#373737" />
-        <Setter Property="Foreground" Value="#F0F0F0" />
+        <Setter Property="Background" Value="{DynamicResource GH.ButtonBack}" />
+        <Setter Property="Foreground" Value="{DynamicResource GH.Fore}" />
         <Setter Property="CornerRadius" Value="5" />
         <Setter Property="Padding" Value="4,8" />
         <Setter Property="MinHeight" Value="68" />
         <Setter Property="BorderThickness" Value="2" />
-        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{DynamicResource GH.ButtonBorder}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -70,7 +66,7 @@
     </Style>
 
     <Style Selector="Button.ghelper-tall:pointerover /template/ ContentPresenter">
-        <Setter Property="Background" Value="#454545" />
+        <Setter Property="Background" Value="{DynamicResource GH.ButtonHover}" />
     </Style>
 
     <!-- Wrap long translated labels inside mode buttons -->
@@ -79,7 +75,7 @@
         <Setter Property="TextAlignment" Value="Center" />
     </Style>
 
-    <!-- Gold coin donate button -->
+    <!-- Gold coin donate button: brand colours, the same in both themes -->
     <Style Selector="Button.ghelper-coin">
         <Setter Property="Background" Value="#FFD700" />
         <Setter Property="Foreground" Value="#4A3800" />
@@ -98,66 +94,60 @@
         <Setter Property="Background" Value="#FFE44D" />
     </Style>
 
-    <!-- ComboBox styling -->
     <Style Selector="ComboBox">
-        <Setter Property="Background" Value="#373737" />
-        <Setter Property="Foreground" Value="#F0F0F0" />
+        <Setter Property="Background" Value="{DynamicResource GH.ButtonBack}" />
+        <Setter Property="Foreground" Value="{DynamicResource GH.Fore}" />
         <Setter Property="CornerRadius" Value="5" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
-    <!-- Slider styling -->
     <Style Selector="Slider">
-        <Setter Property="Foreground" Value="#4CC2FF" />
+        <Setter Property="Foreground" Value="{DynamicResource GH.Accent}" />
     </Style>
 
-    <!-- CheckBox styling -->
     <Style Selector="CheckBox">
-        <Setter Property="Foreground" Value="#F0F0F0" />
+        <Setter Property="Foreground" Value="{DynamicResource GH.Fore}" />
     </Style>
 
-    <!-- TextBlock defaults -->
     <Style Selector="TextBlock">
-        <Setter Property="Foreground" Value="#F0F0F0" />
+        <Setter Property="Foreground" Value="{DynamicResource GH.Fore}" />
     </Style>
 
     <Style Selector="TextBlock.header">
         <Setter Property="FontSize" Value="13" />
         <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="Foreground" Value="#F0F0F0" />
+        <Setter Property="Foreground" Value="{DynamicResource GH.Fore}" />
     </Style>
 
     <Style Selector="TextBlock.label-dim">
-        <Setter Property="Foreground" Value="#A0A0A0" />
+        <Setter Property="Foreground" Value="{DynamicResource GH.ForeDim}" />
         <Setter Property="FontSize" Value="11" />
         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
     </Style>
 
     <Style Selector="TextBlock.value">
-        <Setter Property="Foreground" Value="#4CC2FF" />
+        <Setter Property="Foreground" Value="{DynamicResource GH.Accent}" />
         <Setter Property="FontSize" Value="11" />
     </Style>
 
-    <!-- Separator -->
     <Style Selector="Separator">
-        <Setter Property="Background" Value="#333333" />
+        <Setter Property="Background" Value="{DynamicResource GH.Border}" />
         <Setter Property="Height" Value="1" />
         <Setter Property="Margin" Value="0,5" />
     </Style>
 
-    <!-- TabControl styling for main sections -->
     <Style Selector="TabControl">
-        <Setter Property="Background" Value="#1C1C1C" />
+        <Setter Property="Background" Value="{DynamicResource GH.WindowBack}" />
     </Style>
 
     <Style Selector="TabItem">
-        <Setter Property="Foreground" Value="#A0A0A0" />
+        <Setter Property="Foreground" Value="{DynamicResource GH.ForeDim}" />
         <Setter Property="FontSize" Value="12" />
     </Style>
 
     <Style Selector="TabItem:selected">
-        <Setter Property="Foreground" Value="#F0F0F0" />
+        <Setter Property="Foreground" Value="{DynamicResource GH.Fore}" />
     </Style>
 
 </Styles>

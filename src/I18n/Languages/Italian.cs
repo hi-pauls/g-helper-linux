@@ -397,6 +397,10 @@ public static class Italian
         // APPEARANCE
         ["appearance_header"] = "Aspetto",
         ["icon_set_label"] = "Set di icone",
+        ["theme_label"] = "Tema",
+        ["theme_system"] = "Sistema",
+        ["theme_dark"] = "Scuro",
+        ["theme_light"] = "Chiaro",
 
         // FANS WINDOW
         ["fans_title"] = "Ventole e alimentazione",

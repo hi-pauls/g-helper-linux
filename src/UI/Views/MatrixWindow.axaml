@@ -7,9 +7,7 @@
         SizeToContent="Height"
         MinHeight="300"
         WindowStartupLocation="CenterScreen"
-        CanResize="False"
-        Background="#1C1C1C"
-        Icon="avares://ghelper/UI/Assets/standard.ico">
+        CanResize="False"        Icon="avares://ghelper/UI/Assets/standard.ico">
 
     <StackPanel Margin="16" Spacing="12">
 

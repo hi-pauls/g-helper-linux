@@ -8,33 +8,31 @@
         MinWidth="480"
         MinHeight="560"
         WindowStartupLocation="CenterScreen"
-        CanResize="True"
-        Background="#1C1C1C"
-        Icon="avares://ghelper/UI/Assets/standard.ico">
+        CanResize="True"        Icon="avares://ghelper/UI/Assets/standard.ico">
 
     <Window.Styles>
         <!-- Section subhead -->
         <Style Selector="TextBlock.subhead">
             <Setter Property="FontSize" Value="11" />
             <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Foreground" Value="#C0C0C0" />
+            <Setter Property="Foreground" Value="{DynamicResource GH.ForeLight}" />
             <Setter Property="Margin" Value="0,0,0,6" />
         </Style>
 
         <!-- Hint paragraph -->
         <Style Selector="TextBlock.hint">
             <Setter Property="FontSize" Value="10" />
-            <Setter Property="Foreground" Value="#808080" />
+            <Setter Property="Foreground" Value="{DynamicResource GH.ForeMid}" />
             <Setter Property="TextWrapping" Value="Wrap" />
             <Setter Property="LineHeight" Value="14" />
         </Style>
 
         <!-- Subtle inset for the device list and per-key map -->
         <Style Selector="Border.inset">
-            <Setter Property="Background" Value="#1F1F1F" />
+            <Setter Property="Background" Value="{DynamicResource GH.InsetBack}" />
             <Setter Property="CornerRadius" Value="5" />
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="BorderBrush" Value="#333333" />
+            <Setter Property="BorderBrush" Value="{DynamicResource GH.Border}" />
             <Setter Property="Padding" Value="8" />
         </Style>
     </Window.Styles>

@@ -535,6 +535,10 @@ public static class Malay
         // APPEARANCE
         ["appearance_header"] = "Penampilan",
         ["icon_set_label"] = "Set ikon",
+        ["theme_label"] = "Tema",
+        ["theme_system"] = "Sistem",
+        ["theme_dark"] = "Gelap",
+        ["theme_light"] = "Cerah",
 
         // FANS WINDOW
         ["fans_title"] = "Kipas & Kuasa",

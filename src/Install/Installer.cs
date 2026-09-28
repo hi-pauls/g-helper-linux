@@ -10,6 +10,7 @@ using Avalonia.Threading;
 using GHelper.Linux.Helpers;
 using GHelper.Linux.I18n;
 using GHelper.Linux.Platform.Linux;
+using GHelper.Linux.UI.Styles;
 
 namespace GHelper.Linux.Install;
 
@@ -1498,7 +1499,6 @@ public static partial class Installer
             WindowStartupLocation = WindowStartupLocation.Manual,
             CanResize = false,
             WindowDecorations = WindowDecorations.Full,
-            Background = new SolidColorBrush(Color.Parse("#1C1C1C")),
         };
         try
         { dialog.Icon = owner?.Icon; }
@@ -1510,7 +1510,7 @@ public static partial class Installer
             Text = Labels.Get("sysfiles_popup_intro"),
             TextWrapping = TextWrapping.Wrap,
             FontSize = 13,
-            Foreground = new SolidColorBrush(Color.Parse("#CCCCCC")),
+            Foreground = ThemeColors.Brush("GH.ForeSoft"),
         });
 
         var listPanel = new StackPanel { Spacing = 4 };
@@ -1529,7 +1529,7 @@ public static partial class Installer
                 Text = Labels.Get("sysfiles_popup_root_note"),
                 TextWrapping = TextWrapping.Wrap,
                 FontSize = 11,
-                Foreground = new SolidColorBrush(Color.Parse("#999999")),
+                Foreground = ThemeColors.Brush("GH.ForeHint"),
             });
 
         // "Don't show this again" writes the same config key as the Extra
@@ -1538,7 +1538,7 @@ public static partial class Installer
         {
             Content = Labels.Get("sysfiles_popup_dont_show_again"),
             FontSize = 12,
-            Foreground = new SolidColorBrush(Color.Parse("#CCCCCC")),
+            Foreground = ThemeColors.Brush("GH.ForeSoft"),
             IsChecked = AppConfig.Is("sysfiles_skip_startup"),
             HorizontalAlignment = HorizontalAlignment.Left,
             Cursor = new Cursor(StandardCursorType.Hand),
@@ -1686,14 +1686,14 @@ public static partial class Installer
         {
             Text = Labels.Get(r.File.NameKey),
             FontSize = 13,
-            Foreground = new SolidColorBrush(Color.Parse("#F0F0F0")),
+            Foreground = ThemeColors.Brush("GH.Fore"),
         });
         if (showPath)
             info.Children.Add(new TextBlock
             {
                 Text = Platform.Linux.NixOS.IsNixOS ? DisplayPathNixOS(r.File) : r.File.Dest,
                 FontSize = 10,
-                Foreground = new SolidColorBrush(Color.Parse("#888888")),
+                Foreground = ThemeColors.Brush("GH.ForeMuted"),
                 FontFamily = new FontFamily("monospace"),
                 TextTrimming = TextTrimming.CharacterEllipsis,
             });

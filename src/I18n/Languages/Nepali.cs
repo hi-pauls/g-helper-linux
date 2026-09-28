@@ -535,6 +535,10 @@ public static class Nepali
         // APPEARANCE
         ["appearance_header"] = "रूप",
         ["icon_set_label"] = "आइकन सेट",
+        ["theme_label"] = "थिम",
+        ["theme_system"] = "प्रणाली",
+        ["theme_dark"] = "गाढा",
+        ["theme_light"] = "उज्यालो",
 
         // FANS WINDOW
         ["fans_title"] = "पङ्खा र पावर",

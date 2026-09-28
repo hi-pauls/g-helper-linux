@@ -8,6 +8,7 @@ using Avalonia.Threading;
 using GHelper.Linux.Gpu.NVidia;
 using GHelper.Linux.Helpers;
 using GHelper.Linux.I18n;
+using GHelper.Linux.UI.Styles;
 
 namespace GHelper.Linux.UI.Views;
 
@@ -94,7 +95,7 @@ public partial class NvidiaProcessesWindow : Window
             Text = text,
             FontSize = 12,
             FontWeight = FontWeight.SemiBold,
-            Foreground = new SolidColorBrush(Color.Parse("#AAAAAA")),
+            Foreground = ThemeColors.Brush("GH.ForeDim"),
             Margin = new Thickness(2, 10, 0, 4),
         };
     }
@@ -106,7 +107,7 @@ public partial class NvidiaProcessesWindow : Window
             Text = Labels.Get("gpu_holder_libs_loaded_hint"),
             FontSize = 11,
             TextWrapping = TextWrapping.Wrap,
-            Foreground = new SolidColorBrush(Color.Parse("#888888")),
+            Foreground = ThemeColors.Brush("GH.ForeMuted"),
             Margin = new Thickness(2, 0, 2, 6),
         };
     }
@@ -120,7 +121,7 @@ public partial class NvidiaProcessesWindow : Window
             Child = new TextBlock
             {
                 Text = Labels.Get("gpu_no_processes_using_dgpu"),
-                Foreground = new SolidColorBrush(Color.Parse("#888888")),
+                Foreground = ThemeColors.Brush("GH.ForeMuted"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 TextAlignment = TextAlignment.Center,
                 FontSize = 12,
@@ -294,7 +295,7 @@ public partial class NvidiaProcessesWindow : Window
             TextWrapping = TextWrapping.Wrap,
             FontSize = 13,
             Margin = new Thickness(20, 16, 20, 0),
-            Foreground = new SolidColorBrush(Color.Parse("#CCCCCC")),
+            Foreground = ThemeColors.Brush("GH.ForeSoft"),
         };
 
         var btnYes = new Button
@@ -315,8 +316,8 @@ public partial class NvidiaProcessesWindow : Window
         var btnNo = new Button
         {
             Content = Labels.Get("cancel"),
-            Background = new SolidColorBrush(Color.Parse("#2A2A2A")),
-            Foreground = new SolidColorBrush(Color.Parse("#CCCCCC")),
+            Background = ThemeColors.Brush("GH.RowBack"),
+            Foreground = ThemeColors.Brush("GH.ForeSoft"),
             Padding = new Thickness(14, 8),
             MinWidth = 110,
             CornerRadius = new CornerRadius(4),

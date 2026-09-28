@@ -397,6 +397,10 @@ public static class German
         // APPEARANCE
         ["appearance_header"] = "Darstellung",
         ["icon_set_label"] = "Symbolsatz",
+        ["theme_label"] = "Design",
+        ["theme_system"] = "System",
+        ["theme_dark"] = "Dunkel",
+        ["theme_light"] = "Hell",
 
         // FANS WINDOW
         ["fans_title"] = "Lüfter & Leistung",

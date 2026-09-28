@@ -12,6 +12,7 @@ using GHelper.Linux.Gpu.NVidia;
 using GHelper.Linux.Helpers;
 using GHelper.Linux.I18n;
 using GHelper.Linux.Platform.Linux;
+using GHelper.Linux.UI.Styles;
 using GHelper.Linux.USB;
 
 namespace GHelper.Linux.UI.Views;
@@ -44,7 +45,6 @@ public partial class MainWindow : Window
 
     // Accent colors matching G-Helper's RForm.cs
     private static readonly IBrush AccentBrush = new SolidColorBrush(Color.Parse("#4CC2FF"));
-    private static readonly IBrush TransparentBrush = Brushes.Transparent;
     private static readonly IBrush CoinGoldBrush = new SolidColorBrush(Color.Parse("#FFD700"));
     private static readonly IBrush CoinDarkBrush = new SolidColorBrush(Color.Parse("#8B6914"));
 
@@ -764,7 +764,7 @@ public partial class MainWindow : Window
 
         var card = new Border
         {
-            Background = new SolidColorBrush(Color.Parse("#262626")),
+            Background = ThemeColors.Brush("GH.PanelBack"),
             CornerRadius = new Avalonia.CornerRadius(8),
             Padding = new Avalonia.Thickness(20, 16),
             Margin = new Avalonia.Thickness(0, 0, 0, 18),
@@ -795,7 +795,7 @@ public partial class MainWindow : Window
             TextWrapping = Avalonia.Media.TextWrapping.Wrap,
             FontSize = 13,
             LineHeight = 20,
-            Foreground = new SolidColorBrush(Color.Parse("#CCCCCC")),
+            Foreground = ThemeColors.Brush("GH.ForeSoft"),
         };
 
         var cardContent = new StackPanel();
@@ -857,7 +857,7 @@ public partial class MainWindow : Window
         // Content card - matches main window panel style (#262626)
         var card = new Border
         {
-            Background = new SolidColorBrush(Color.Parse("#262626")),
+            Background = ThemeColors.Brush("GH.PanelBack"),
             CornerRadius = new Avalonia.CornerRadius(8),
             Padding = new Avalonia.Thickness(20, 16),
             Margin = new Avalonia.Thickness(0, 0, 0, 18),
@@ -894,7 +894,7 @@ public partial class MainWindow : Window
             TextWrapping = Avalonia.Media.TextWrapping.Wrap,
             FontSize = 13,
             LineHeight = 20,
-            Foreground = new SolidColorBrush(Color.Parse("#CCCCCC")),
+            Foreground = ThemeColors.Brush("GH.ForeSoft"),
         };
 
         string ComposeHolderSummary()
@@ -937,8 +937,8 @@ public partial class MainWindow : Window
         var dgpuViewButton = new Button
         {
             Content = Labels.Get("gpu_dgpu_users_view"),
-            Background = new SolidColorBrush(Color.Parse("#3A3A3A")),
-            Foreground = new SolidColorBrush(Color.Parse("#FFFFFF")),
+            Background = ThemeColors.Brush("GH.ButtonBack"),
+            Foreground = ThemeColors.Brush("GH.Fore"),
             Padding = new Avalonia.Thickness(12, 6),
             CornerRadius = new Avalonia.CornerRadius(4),
             BorderThickness = new Avalonia.Thickness(0),
@@ -973,13 +973,13 @@ public partial class MainWindow : Window
 
         // Buttons - all properties set directly, no CSS class
         // Shared properties applied via helper
-        Button MakeDialogButton(string text, string bg, string fg, bool bold = false)
+        Button MakeDialogButton(string text, IBrush bg, IBrush fg, bool bold = false)
         {
             return new Button
             {
                 Content = text,
-                Background = new SolidColorBrush(Color.Parse(bg)),
-                Foreground = new SolidColorBrush(Color.Parse(fg)),
+                Background = bg,
+                Foreground = fg,
                 FontWeight = bold ? Avalonia.Media.FontWeight.Bold : Avalonia.Media.FontWeight.Normal,
                 FontSize = 13,
                 MinWidth = 130,
@@ -994,8 +994,10 @@ public partial class MainWindow : Window
             };
         }
 
-        var btnAfterReboot = MakeDialogButton(Labels.Get("gpu_driver_after_reboot"), "#4CC2FF", "#000000", bold: true);
-        var btnCancel = MakeDialogButton(Labels.Get("cancel"), "#2A2A2A", "#888888");
+        var btnAfterReboot = MakeDialogButton(Labels.Get("gpu_driver_after_reboot"),
+            Brush.Parse("#4CC2FF"), Brushes.Black, bold: true);
+        var btnCancel = MakeDialogButton(Labels.Get("cancel"),
+            ThemeColors.Brush("GH.RowBack"), ThemeColors.Brush("GH.ForeMuted"));
         btnAfterReboot.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
         btnCancel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
 
@@ -1003,7 +1005,8 @@ public partial class MainWindow : Window
         TextBlock? switchNowWarning = null;
         if (canSwitchNow)
         {
-            btnSwitchNow = MakeDialogButton(Labels.Get("gpu_driver_switch_now"), "#A82A2A", "#FFFFFF", bold: true);
+            btnSwitchNow = MakeDialogButton(Labels.Get("gpu_driver_switch_now"),
+                Brush.Parse("#A82A2A"), Brushes.White, bold: true);
             btnSwitchNow.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
             switchNowWarning = new TextBlock
             {
@@ -1075,7 +1078,7 @@ public partial class MainWindow : Window
         var footer = new TextBlock
         {
             Text = Labels.Get("gpu_driver_footer"),
-            Foreground = new SolidColorBrush(Color.Parse("#666666")),
+            Foreground = ThemeColors.Brush("GH.ForeFaint"),
             TextWrapping = Avalonia.Media.TextWrapping.Wrap,
             FontSize = 11,
             LineHeight = 16,
@@ -1175,7 +1178,7 @@ public partial class MainWindow : Window
 
         var card = new Border
         {
-            Background = new SolidColorBrush(Color.Parse("#262626")),
+            Background = ThemeColors.Brush("GH.PanelBack"),
             CornerRadius = new Avalonia.CornerRadius(8),
             Padding = new Avalonia.Thickness(20, 16),
             Margin = new Avalonia.Thickness(0, 0, 0, 18),
@@ -1212,7 +1215,7 @@ public partial class MainWindow : Window
             TextWrapping = Avalonia.Media.TextWrapping.Wrap,
             FontSize = 13,
             LineHeight = 20,
-            Foreground = new SolidColorBrush(Color.Parse("#CCCCCC")),
+            Foreground = ThemeColors.Brush("GH.ForeSoft"),
             Margin = new Avalonia.Thickness(0, 0, 0, 10),
         };
 
@@ -1242,13 +1245,13 @@ public partial class MainWindow : Window
         cardContent.Children.Add(listScroll);
         card.Child = cardContent;
 
-        Button MakeBtn(string text, string bg, string fg, bool bold = false)
+        Button MakeBtn(string text, IBrush bg, IBrush fg, bool bold = false)
         {
             return new Button
             {
                 Content = text,
-                Background = new SolidColorBrush(Color.Parse(bg)),
-                Foreground = new SolidColorBrush(Color.Parse(fg)),
+                Background = bg,
+                Foreground = fg,
                 FontWeight = bold ? Avalonia.Media.FontWeight.Bold : Avalonia.Media.FontWeight.Normal,
                 FontSize = 13,
                 MinWidth = 130,
@@ -1263,8 +1266,10 @@ public partial class MainWindow : Window
             };
         }
 
-        var btnRetry = MakeBtn(Labels.Get("gpu_kill_failure_retry"), "#A82A2A", "#FFFFFF", bold: true);
-        var btnClose = MakeBtn(Labels.Get("cancel"), "#2A2A2A", "#888888");
+        var btnRetry = MakeBtn(Labels.Get("gpu_kill_failure_retry"),
+            Brush.Parse("#A82A2A"), Brushes.White, bold: true);
+        var btnClose = MakeBtn(Labels.Get("cancel"),
+            ThemeColors.Brush("GH.RowBack"), ThemeColors.Brush("GH.ForeMuted"));
         btnRetry.Margin = new Avalonia.Thickness(0, 0, 6, 0);
         btnClose.Margin = new Avalonia.Thickness(6, 0, 0, 0);
 
@@ -2796,7 +2801,7 @@ public partial class MainWindow : Window
         }
         else
         {
-            button.BorderBrush = TransparentBrush;
+            button.ClearValue(Button.BorderBrushProperty);
             button.BorderThickness = new Avalonia.Thickness(2);
         }
     }

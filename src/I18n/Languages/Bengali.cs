@@ -535,6 +535,10 @@ public static class Bengali
         // APPEARANCE
         ["appearance_header"] = "অবয়ব",
         ["icon_set_label"] = "আইকন সেট",
+        ["theme_label"] = "থিম",
+        ["theme_system"] = "সিস্টেম",
+        ["theme_dark"] = "ডার্ক",
+        ["theme_light"] = "লাইট",
 
         // FANS WINDOW
         ["fans_title"] = "ফ্যান ও পাওয়ার",

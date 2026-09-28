@@ -7,17 +7,15 @@
         Height="600"
         MinWidth="700"
         MinHeight="480"
-        WindowStartupLocation="CenterScreen"
-        Background="#1C1C1C"
-        Icon="avares://ghelper/UI/Assets/favicon.ico">
+        WindowStartupLocation="CenterScreen"        Icon="avares://ghelper/UI/Assets/favicon.ico">
 
     <Window.Styles>
         <!-- Chain effect tile: top row hosts the on/off checkbox + name,
              body is a clickable Button that opens the effect detail window.
              A bright accent border highlights tiles where the effect is on. -->
         <Style Selector="Border.effect-tile">
-            <Setter Property="Background" Value="#262A30" />
-            <Setter Property="BorderBrush" Value="#3F4248" />
+            <Setter Property="Background" Value="{DynamicResource GH.AudioTile}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource GH.AudioTileBorder}" />
             <Setter Property="BorderThickness" Value="2" />
             <Setter Property="CornerRadius" Value="6" />
             <Setter Property="Padding" Value="8,6" />
@@ -25,7 +23,7 @@
         </Style>
         <Style Selector="Border.effect-tile.on">
             <Setter Property="BorderBrush" Value="#50C878" />
-            <Setter Property="Background" Value="#1E3328" />
+            <Setter Property="Background" Value="{DynamicResource GH.OnBack}" />
         </Style>
         <Style Selector="Button.tile-body">
             <Setter Property="Background" Value="Transparent" />
@@ -35,7 +33,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Center" />
         </Style>
         <Style Selector="Button.tile-body:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="#33FFFFFF" />
+            <Setter Property="Background" Value="{DynamicResource GH.HoverTint}" />
         </Style>
     </Window.Styles>
 
@@ -216,8 +214,8 @@
                                    FontSize="10" Foreground="#888"
                                    TextTrimming="CharacterEllipsis" />
                         <ProgressBar x:Name="meterIn" Minimum="0" Maximum="100"
-                                     Height="10" Foreground="#4CC2FF"
-                                     Background="#202428" />
+                                     Height="10" Foreground="{DynamicResource GH.Accent}"
+                                     Background="{DynamicResource GH.AudioTrack}" />
                         <TextBlock x:Name="labelInDb" Text="-inf dB" FontSize="10"
                                    Foreground="#AAA"
                                    TextTrimming="CharacterEllipsis" />
@@ -228,7 +226,7 @@
                                    TextTrimming="CharacterEllipsis" />
                         <ProgressBar x:Name="meterOut" Minimum="0" Maximum="100"
                                      Height="10" Foreground="#50C878"
-                                     Background="#202428" />
+                                     Background="{DynamicResource GH.AudioTrack}" />
                         <TextBlock x:Name="labelOutDb" Text="-inf dB" FontSize="10"
                                    Foreground="#AAA"
                                    TextTrimming="CharacterEllipsis" />
@@ -239,7 +237,7 @@
                                    TextTrimming="CharacterEllipsis" />
                         <ProgressBar x:Name="meterRed" Minimum="0" Maximum="40"
                                      Height="10" Foreground="#FFA500"
-                                     Background="#202428" />
+                                     Background="{DynamicResource GH.AudioTrack}" />
                         <TextBlock x:Name="labelRedDb" Text="0 dB" FontSize="10"
                                    Foreground="#AAA"
                                    TextTrimming="CharacterEllipsis" />
@@ -250,7 +248,7 @@
                                    TextTrimming="CharacterEllipsis" />
                         <ProgressBar x:Name="meterVad" Minimum="0" Maximum="100"
                                      Height="10" Foreground="#C778DD"
-                                     Background="#202428" />
+                                     Background="{DynamicResource GH.AudioTrack}" />
                         <TextBlock x:Name="labelVad" Text="0%" FontSize="10"
                                    Foreground="#AAA"
                                    TextTrimming="CharacterEllipsis" />

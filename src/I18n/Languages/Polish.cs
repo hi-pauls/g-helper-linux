@@ -397,6 +397,10 @@ public static class Polish
         // APPEARANCE
         ["appearance_header"] = "Wygląd",
         ["icon_set_label"] = "Zestaw ikon",
+        ["theme_label"] = "Motyw",
+        ["theme_system"] = "Systemowy",
+        ["theme_dark"] = "Ciemny",
+        ["theme_light"] = "Jasny",
 
         // FANS WINDOW
         ["fans_title"] = "Wentylatory i zasilanie",
