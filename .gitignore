@@ -13,6 +13,12 @@ audio-helper/ghelper-audio
 audio-helper/tests/cs/bin/
 audio-helper/tests/cs/obj/
 
+# Vendored helper binaries (built by build.sh and embedded; a --fast build leaves them)
+vendor/gpu-helper/gpu-helper
+vendor/ghelperd/ghelperd
+vendor/ghelperd/ghelper-run
+vendor/ghelperd/test-units
+
 # AppImage
 *.AppImage
 GHelper.AppDir/

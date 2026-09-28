@@ -169,6 +169,26 @@ else
     echo "NOTE: cc not found, skipping gpu-helper build."
 fi
 
+# Build ghelperd + ghelper-run (optional privilege-separated helper, vendored)
+GHELPERD_DIR="$SCRIPT_DIR/vendor/ghelperd"
+GHELPERD_BUILT=0
+
+if command -v cc &>/dev/null; then
+    echo ""
+    echo "Building ghelperd..."
+    (
+        cd "$GHELPERD_DIR"
+        cc -O2 -Wall -Wextra -DNDEBUG -o ghelperd ghelperd.c
+        cc -O2 -Wall -Wextra -DNDEBUG -o ghelper-run ghelper-run.c
+        cc -O2 -Wall -Wextra -I. -o test-units test-units.c
+        ./test-units >/dev/null || { echo "ERROR: ghelperd unit tests failed"; ./test-units; exit 1; }
+        rm -f test-units
+        strip ghelperd ghelper-run
+    ) || exit 1
+    GHELPERD_BUILT=1
+    echo "  ghelperd built: $(du -sh "$GHELPERD_DIR/ghelperd" | cut -f1), ghelper-run: $(du -sh "$GHELPERD_DIR/ghelper-run" | cut -f1)"
+fi
+
 # Clean previous build artifacts. Skipped in fast mode so MSBuild's
 # up-to-date check can shortcut unchanged work on repeat runs.
 echo ""
@@ -276,6 +296,9 @@ fi
 # Clean gpu-helper build artifact from vendor dir (binary is embedded in ghelper)
 if [[ -n "$GPU_HELPER_BIN" ]]; then
     rm -f "$GPU_HELPER_DIR/gpu-helper"
+fi
+if (( GHELPERD_BUILT )); then
+    rm -f "$GHELPERD_DIR/ghelperd" "$GHELPERD_DIR/ghelper-run"
 fi
 
 # Summary

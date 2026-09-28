@@ -68,6 +68,9 @@
          in the EmbedNativeLibraries target since it is a build artifact. -->
     <EmbeddedResource Include="../install/90-ghelper.rules" LogicalName="90-ghelper.rules" Condition="Exists('../install/90-ghelper.rules')" />
     <EmbeddedResource Include="../install/gpu-block-helper.sh" LogicalName="gpu-block-helper.sh" Condition="Exists('../install/gpu-block-helper.sh')" />
+    <EmbeddedResource Include="../install/ghelperd.socket" LogicalName="ghelperd.socket" Condition="Exists('../install/ghelperd.socket')" />
+    <EmbeddedResource Include="../install/ghelperd.service" LogicalName="ghelperd.service" Condition="Exists('../install/ghelperd.service')" />
+    <EmbeddedResource Include="../install/ghelper-sysusers.conf" LogicalName="ghelper-sysusers.conf" Condition="Exists('../install/ghelper-sysusers.conf')" />
     <EmbeddedResource Include="../install/ghelper-gpu-boot.sh" LogicalName="ghelper-gpu-boot.sh" Condition="Exists('../install/ghelper-gpu-boot.sh')" />
     <EmbeddedResource Include="../install/ghelper-gpu-boot.service" LogicalName="ghelper-gpu-boot.service" Condition="Exists('../install/ghelper-gpu-boot.service')" />
     <EmbeddedResource Include="../install/ghelper.desktop" LogicalName="ghelper.desktop" Condition="Exists('../install/ghelper.desktop')" />
@@ -97,6 +100,9 @@
            Built by build.sh from audio-helper/. Provides the virtual G-Helper Microphone source. -->
       <EmbeddedResource Include="../build/embedded/ghelper-audio" Condition="Exists('../build/embedded/ghelper-audio')" LogicalName="ghelper-audio" />
       <EmbeddedResource Include="../vendor/gpu-helper/gpu-helper" LogicalName="gpu-helper" />
+      <!-- ghelperd / ghelper-run: optional privilege-separated helper, built by build.sh. -->
+      <EmbeddedResource Include="../vendor/ghelperd/ghelperd" Condition="Exists('../vendor/ghelperd/ghelperd')" LogicalName="ghelperd" />
+      <EmbeddedResource Include="../vendor/ghelperd/ghelper-run" Condition="Exists('../vendor/ghelperd/ghelper-run')" LogicalName="ghelper-run" />
       <!-- ryzenadj: upstream RyzenAdj CLI (static musl build from GitHub
            releases, vendored in git). Updated via scripts/update-ryzenadj.sh. -->
       <EmbeddedResource Include="../vendor/ryzenadj/ryzenadj" Condition="Exists('../vendor/ryzenadj/ryzenadj')" LogicalName="ryzenadj" />
