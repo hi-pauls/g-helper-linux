@@ -1,4 +1,4 @@
-/* Intel CPU undervolt via MSR 0x150 OC mailbox for gpu-helper. */
+/* Intel CPU undervolt via MSR 0x150 OC mailbox, and RAPL power limits, for gpu-helper. */
 #include "gpu-helper.h"
 
 /*
@@ -128,5 +128,93 @@ int do_msr_uv(int argc, char **argv)
         glog(LOG_INFO, "msr-uv: requested %ld mV -> readback core=%d cache=%d", mv, core_rb, cache_rb);
     }
     close(fd);
+    return rc;
+}
+
+/*
+ * Intel RAPL package power limits through the powercap sysfs interface.
+ * Some ASUS Intel models (e.g. Flow Z13 GZ301V) accept the WMI PPT writes but
+ * never apply them on Linux - on Windows Intel DTT does that - so the limit is
+ * written to RAPL directly. The CPU enforces the lower of the MMIO and MSR
+ * copies, so both are set. pl1 = long_term, pl2 = short_term.
+ */
+
+#define RAPL_MIN_W 5
+#define RAPL_MAX_W 250
+
+static const char *const rapl_zones[] = {
+    "/sys/class/powercap/intel-rapl-mmio:0",
+    "/sys/class/powercap/intel-rapl:0",
+};
+
+/* Index of the constraint named name in zone, or -1. */
+static int rapl_find_constraint(const char *zone, const char *name)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        char path[PATH_BUF_SIZE];
+        char buf[32] = "";
+        snprintf(path, sizeof(path), "%s/constraint_%d_name", zone, i);
+        FILE *f = fopen(path, "r");
+        if (f == NULL)
+            return -1;
+        char *got = fgets(buf, sizeof(buf), f);
+        fclose(f);
+        if (got != NULL && strncmp(buf, name, strlen(name)) == 0 && (buf[strlen(name)] == '\n' || buf[strlen(name)] == '\0'))
+            return i;
+    }
+    return -1;
+}
+
+int do_rapl_limit(int argc, char **argv)
+{
+    if (argc != 4 || (strcmp(argv[2], "pl1") != 0 && strcmp(argv[2], "pl2") != 0))
+    {
+        fprintf(stderr, "usage: rapl-limit <pl1|pl2> <watts>  (integer in [%d,%d])\n", RAPL_MIN_W, RAPL_MAX_W);
+        return 1;
+    }
+    char *end = NULL;
+    long watts = strtol(argv[3], &end, 10);
+    if (end == argv[3] || *end != '\0' || watts < RAPL_MIN_W || watts > RAPL_MAX_W)
+    {
+        glog(LOG_WARNING, "rapl-limit: rejected %s '%s' (allowed [%d,%d])", argv[2], argv[3], RAPL_MIN_W, RAPL_MAX_W);
+        fprintf(stderr, "rapl-limit: watts must be an integer in [%d,%d]\n", RAPL_MIN_W, RAPL_MAX_W);
+        return 1;
+    }
+    const char *constraint = strcmp(argv[2], "pl1") == 0 ? "long_term" : "short_term";
+
+    int written = 0;
+    int rc = 0;
+    for (size_t z = 0; z < sizeof(rapl_zones) / sizeof(rapl_zones[0]); z++)
+    {
+        int index = rapl_find_constraint(rapl_zones[z], constraint);
+        if (index < 0)
+            continue;
+        char path[PATH_BUF_SIZE];
+        char value[32];
+        snprintf(path, sizeof(path), "%s/constraint_%d_power_limit_uw", rapl_zones[z], index);
+        snprintf(value, sizeof(value), "%ld", watts * 1000000L);
+        int fd = open(path, O_WRONLY);
+        if (fd < 0 || write(fd, value, strlen(value)) < 0)
+        {
+            glog(LOG_ERR, "rapl-limit: write %s: %s", path, strerror(errno));
+            fprintf(stderr, "rapl-limit: write %s: %s\n", path, strerror(errno));
+            rc = 3;
+        }
+        else
+            written++;
+        if (fd >= 0)
+            close(fd);
+    }
+    if (written == 0 && rc == 0)
+    {
+        fprintf(stderr, "rapl-limit: no intel-rapl zone with a %s constraint\n", constraint);
+        return 1;
+    }
+    if (rc == 0)
+    {
+        glog(LOG_INFO, "rapl-limit: %s (%s) = %ld W in %d zone(s)", argv[2], constraint, watts, written);
+        printf("%s=%ld zones=%d\n", argv[2], watts, written);
+    }
     return rc;
 }

@@ -71,6 +71,7 @@ int do_ec_fanctl(void);
 
 /* msr_ops.c */
 int do_msr_uv(int argc, char **argv);
+int do_rapl_limit(int argc, char **argv);
 
 /* lenovo_ops.c */
 int do_lenovo_flip_to_start(int argc, char **argv);

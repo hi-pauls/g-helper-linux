@@ -112,6 +112,12 @@
  *       cache=<mv>") so the caller can verify the offset took effect (a
  *       firmware-locked mailbox reads back 0). Non-persistent; resets on reboot.
  *
+ *   rapl-limit <pl1|pl2> <watts>
+ *       Intel RAPL package limit (pl1 = long_term, pl2 = short_term) written to
+ *       intel-rapl-mmio:0 and intel-rapl:0, since the CPU enforces the lower
+ *       copy. For Intel models whose firmware accepts the WMI PPT writes but
+ *       never applies them. watts is restricted to [5, 250]. Non-persistent.
+ *
  *
  * Sudoers (installed by install.sh, bare path = any subcommand/args):
  *   (root) NOPASSWD: /opt/ghelper/gpu-helper
@@ -222,6 +228,8 @@ int main(int argc, char **argv)
             return do_ec_fanctl();
         if (strcmp(argv[1], "msr-uv") == 0)
             return do_msr_uv(argc, argv);
+        if (strcmp(argv[1], "rapl-limit") == 0)
+            return do_rapl_limit(argc, argv);
         if (strcmp(argv[1], "lenovo-flip-to-start") == 0)
             return do_lenovo_flip_to_start(argc, argv);
     }
