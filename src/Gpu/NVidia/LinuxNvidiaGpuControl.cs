@@ -795,8 +795,29 @@ public class LinuxNvidiaGpuControl : IGpuControl
         if (SysfsHelper.ReadAttribute(Path.Combine(powerDir, "control")) != "auto")
             return false;
         // usage_count=0: no client holds the GPU, suspend is pending.
-        return SysfsHelper.ReadInt(Path.Combine(powerDir, "runtime_usage"), -1) == 0;
+        int usage = SysfsHelper.ReadInt(Path.Combine(powerDir, "runtime_usage"), -1);
+        if (usage >= 0)
+            return usage == 0;
+        // runtime_usage needs CONFIG_PM_ADVANCED_DEBUG. Without it an idle dGPU
+        // looks like a busy one, and a steady poll keeps it out of D3 forever.
+        // Probe in a short window with a gap longer than the driver's idle
+        // timeout instead: the dGPU can suspend in between, after which
+        // IsDgpuSuspended stops the probes entirely. The window lets the
+        // several reads of one tick all pass.
+        var now = DateTime.UtcNow;
+        if (now < _blindProbeUntilUtc)
+            return false;
+        if (now < _nextBlindProbeUtc)
+            return true;
+        _blindProbeUntilUtc = now + BlindProbeWindow;
+        _nextBlindProbeUtc = now + BlindProbeGap;
+        return false;
     }
+
+    private static readonly TimeSpan BlindProbeWindow = TimeSpan.FromSeconds(2);
+    private static readonly TimeSpan BlindProbeGap = TimeSpan.FromSeconds(30);
+    private static DateTime _blindProbeUntilUtc;
+    private static DateTime _nextBlindProbeUtc;
 
     /// <summary>
     /// Clear the nvidia-smi circuit breaker. Called when the dGPU comes back so
