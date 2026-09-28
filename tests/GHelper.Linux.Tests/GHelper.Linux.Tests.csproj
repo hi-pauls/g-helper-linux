@@ -31,6 +31,8 @@
     <!-- We don't want to compile any Avalonia .axaml from the main proj. -->
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <!-- PrivilegeHelper receives the hidraw fd with a pinned recvmsg buffer. -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -57,6 +59,11 @@
     <!-- NixOS (gpu-helper resolve) + RyzenPower (PPT); SysfsHelper-only helpers -->
     <Compile Include="../../src/Platform/Linux/NixOS.cs" />
     <Compile Include="../../src/Platform/Linux/RyzenPower.cs" />
+    <!-- Privilege separation: ghelperd client, Intel RAPL PPT fallback, helper udev rules -->
+    <Compile Include="../../src/Platform/Linux/PrivilegeHelper.cs" />
+    <Compile Include="../../src/Platform/Linux/IntelRapl.cs" />
+    <Compile Include="../../src/Platform/Linux/IntelUndervolt.cs" />
+    <Compile Include="../../src/Install/HelperRules.cs" />
     <!-- ImmutableOs: SysfsHelper.DefaultGpuHelperInstallPath (SteamOS sealed root) -->
     <Compile Include="../../src/Platform/Linux/ImmutableOs.cs" />
     <!-- LinuxAsusWmi + AsusWmiDebugfs: needed by the direct unit tests for

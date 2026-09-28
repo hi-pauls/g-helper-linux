@@ -26,6 +26,7 @@ public static class Program
         {
             Scenarios.RunAll();
             ManualFanTests.RunAll();
+            PrivilegeSeparationTests.RunAll();
         }
         finally
         {
