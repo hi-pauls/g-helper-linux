@@ -406,10 +406,19 @@ public class ModeControl
         // experimental EC follower tracks the same per-mode switch
         Fan.ManualFanService.Sync();
 
-        if (!Helpers.AppConfig.IsMode("auto_apply_fans"))
-            return;
-
         var wmi = App.Wmi;
+        if (!Helpers.AppConfig.IsMode("auto_apply_fans"))
+        {
+            // A mode without its own curves runs the firmware's, as on Windows.
+            // With power limits AutoCpuPower loads them (it needs manual mode);
+            // without, a custom curve left enabled goes back to the firmware.
+            if (wmi != null && !Helpers.AppConfig.IsMode("auto_apply_power"))
+                for (int fan = 0; fan < wmi.FanCount; fan++)
+                    if (wmi.IsFanCurveEnabled(fan))
+                        wmi.ResetFanCurveToDefaults(fan);
+            return;
+        }
+
         if (wmi == null)
             return;
 
@@ -488,8 +497,15 @@ public class ModeControl
         // Phase 1 already called AutoFans() which sets FANM=4 via
         // pwm_enable=1. When auto_apply_fans is OFF, ensure FANM=4 here
         // before writing any PPT values.
+        // Manual mode runs whatever curve the kernel holds, which is the previous
+        // mode's custom one; load this profile's firmware defaults first so a
+        // mode without its own curves gets the firmware's, as on Windows.
         if (!Helpers.AppConfig.IsMode("auto_apply_fans"))
+        {
+            for (int fan = 0; fan < wmi.FanCount; fan++)
+                wmi.ResetFanCurveToDefaults(fan);
             wmi.EnsureManualFanMode();
+        }
 
         int maxTotal = GetMaxTotal();
 
