@@ -464,6 +464,10 @@ static void op_hotkeys(int conn, const struct ucred *cred)
             break;
         for (int i = 0; i < open_count; i++)
         {
+            /* A removed node polls as HUP/ERR without IN; ending the stream lets
+             * the app reconnect to the devices present now. */
+            if (fds[i].revents & (POLLHUP | POLLERR | POLLNVAL))
+                goto done;
             if (!(fds[i].revents & POLLIN))
                 continue;
             struct input_event ev;
