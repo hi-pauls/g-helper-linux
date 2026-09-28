@@ -59,6 +59,7 @@
  *       nvidia-smi with a whitelisted write flag (-pl | -lgc | -rgc | -lmc | -rmc).
  *
  *   modprobe uvcvideo | modprobe -r uvcvideo | modprobe nvidia-wmi-ec-backlight
+ *   modprobe amdgpu | modprobe nvidia | modprobe nvidia-drm
  *       Load/unload the whitelisted modules only.
  *
  *   nvml-temp

@@ -2243,6 +2243,12 @@ public class GPUModeControl
     {
         Logger.WriteLine("GPUModeControl: attempting NVIDIA driver release");
 
+        if (FindExternalNvidiaGpu() is { } egpu)
+        {
+            Logger.WriteLine($"GPUModeControl: external GPU {egpu} shares the nvidia modules - not releasing the driver");
+            return false;
+        }
+
         // Stop our own telemetry from spawning nvidia-smi mid-release: such a
         // process opens /dev/nvidia*, blocks the PCI unbind, and if killed on
         // its timeout can wedge in D-state and make rmmod nvidia fail forever.
@@ -2405,8 +2411,25 @@ public class GPUModeControl
                 Thread.Sleep(300);
             }
 
+            // An eGPU plugged in mid-release binds to the modules still loaded;
+            // unloading them now would leave it without a driver. Checked before
+            // every module, so the window is one rmmod wide.
+            string? egpu = null;
             foreach (var m in NvidiaModules)
+            {
+                egpu = FindExternalNvidiaGpu();
+                if (egpu != null)
+                    break;
                 RmmodOneModule(m);
+            }
+            if (egpu != null)
+            {
+                Logger.WriteLine($"GPUModeControl: external GPU {egpu} appeared mid-release - aborting, reloading nvidia");
+                ReloadNvidiaModules();
+                RollbackUnbinds(unbindStack);
+                unbindStack = new List<UnbindRecord>();
+                return false;
+            }
 
             bool drmGone = !Directory.Exists(TestPathPrefix + "/sys/module/nvidia_drm");
             bool nvidiaGone = !Directory.Exists(TestPathPrefix + "/sys/module/nvidia");
@@ -2524,6 +2547,41 @@ public class GPUModeControl
 
     private static bool TryRebindFunction(UnbindRecord rec)
         => RunPciAction("pci-bind", rec.DriverName, rec.Bdf);
+
+    /// <summary>
+    /// An NVIDIA GPU behind Thunderbolt/USB4, which the kernel marks removable.
+    /// It shares the nvidia modules with the internal dGPU, so releasing them for
+    /// Eco would take it down too.
+    /// </summary>
+    private static string? FindExternalNvidiaGpu()
+    {
+        try
+        {
+            foreach (var dev in Directory.EnumerateDirectories(TestPathPrefix + "/sys/bus/pci/devices"))
+            {
+                if (SysfsHelper.ReadAttribute(Path.Combine(dev, "vendor")) == "0x10de"
+                    && (SysfsHelper.ReadAttribute(Path.Combine(dev, "class")) ?? "").StartsWith("0x03", StringComparison.Ordinal)
+                    && SysfsHelper.ReadAttribute(Path.Combine(dev, "removable")) == "removable")
+                    return Path.GetFileName(dev);
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.WriteLine($"GPUModeControl: FindExternalNvidiaGpu failed: {ex.Message}");
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// Undo a partial unload. The nvidia-drm softdep only fires when nvidia
+    /// itself loads, so a lone missing nvidia_drm needs its own modprobe.
+    /// </summary>
+    private static void ReloadNvidiaModules()
+    {
+        SysfsHelper.RunSudoOrPkexec(SysfsHelper.GpuHelperPath, new[] { "modprobe", "nvidia" }, sudoTimeoutMs: 10000);
+        SysfsHelper.RunSudoOrPkexec(SysfsHelper.GpuHelperPath, new[] { "modprobe", "nvidia-drm" }, sudoTimeoutMs: 10000);
+        Logger.WriteLine($"GPUModeControl: reload nvidia - nvidia {(Directory.Exists(TestPathPrefix + "/sys/module/nvidia") ? "loaded" : "MISSING")}, nvidia_drm {(Directory.Exists(TestPathPrefix + "/sys/module/nvidia_drm") ? "loaded" : "MISSING")}");
+    }
 
     private static void RollbackUnbinds(List<UnbindRecord> stack)
     {
@@ -2987,7 +3045,9 @@ public class GPUModeControl
             foreach (var item in Directory.GetFileSystemEntries(driverDir))
             {
                 string name = Path.GetFileName(item);
-                if (System.Text.RegularExpressions.Regex.IsMatch(name, @"^[0-9a-f]{4}:[0-9a-f]{2}:[0-9a-f]{2}\.[0-9]$"))
+                // An eGPU binds to the same driver; it is never the dGPU.
+                if (System.Text.RegularExpressions.Regex.IsMatch(name, @"^[0-9a-f]{4}:[0-9a-f]{2}:[0-9a-f]{2}\.[0-9]$")
+                    && SysfsHelper.ReadAttribute(Path.Combine(item, "removable")) != "removable")
                     return name;
             }
         }

@@ -135,6 +135,20 @@ public static class Harness
         }
 
         /// <summary>
+        /// Place a fake eGPU: an NVIDIA VGA device behind Thunderbolt/USB4,
+        /// which the kernel marks removable.
+        /// </summary>
+        public void WriteFakeExternalNvidiaPciDevice()
+        {
+            string dev = Path.Combine(TempRoot, "sys", "bus", "pci", "devices", "0000:0a:00.0");
+            Directory.CreateDirectory(dev);
+            File.WriteAllText(Path.Combine(dev, "vendor"), "0x10de\n");
+            File.WriteAllText(Path.Combine(dev, "class"), "0x030000\n");
+            File.WriteAllText(Path.Combine(dev, "removable"), "removable\n");
+            LinuxAsusWmi.InvalidateGpuPresenceCache();
+        }
+
+        /// <summary>
         /// Simulate the post-Eco udev hot-remove state: no NVIDIA device
         /// under /sys/bus/pci/devices. This is the default sandbox state
         /// (the constructor wipes the tree) so call this only when you

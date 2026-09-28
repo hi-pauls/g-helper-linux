@@ -77,6 +77,7 @@ public static class Scenarios
         Console.WriteLine("\n Bug-regression tests (specific bugs we fixed) ");
         Regression_PciToggleAfterUltimate_PreservesLatch_EcoBlocked();
         Regression_PciBlocksRemainAfterToggle_GetCurrentModeIsEco();
+        Regression_EcoRelease_SparesExternalGpu();
         Regression_PciEcoAlreadyApplied_NoSpuriousReboot();
         Regression_BackendMarkerMissing_DefaultsToAsusWmi();
         Regression_StaleMuxLatchFlag_ClearedOnStartup();
@@ -292,6 +293,24 @@ public static class Scenarios
 
             AssertEqual(GpuSwitchResult.EcoBlocked, result, "Eco refused while latch is set");
             Assert(!sb.ModprobePresent(), "no block artifacts written");
+        });
+
+    static void Regression_EcoRelease_SparesExternalGpu()
+        => Scenario(nameof(Regression_EcoRelease_SparesExternalGpu), sb =>
+        {
+            // An eGPU shares the nvidia modules with the dGPU. The live
+            // release must not start, so Eco waits for the next boot; the
+            // guard returns before any rmmod runs.
+            AppConfig.Set("gpu_backend", "asus-wmi");
+            sb.WriteFakeNvidiaPciDevice();
+            sb.WriteFakeExternalNvidiaPciDevice();
+            sb.WriteFakeNvidiaModule();
+            sb.Wmi.MuxMode = 1; sb.Wmi.EcoEnabled = false;
+
+            var result = sb.Controller.TryReleaseAndSwitch();
+
+            AssertEqual(GpuSwitchResult.Deferred, result, "Eco deferred while an eGPU is attached");
+            Assert(!sb.Wmi.EcoEnabled, "dgpu_disable not written");
         });
 
     static void Regression_PciBlocksRemainAfterToggle_GetCurrentModeIsEco()

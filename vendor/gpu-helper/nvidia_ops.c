@@ -487,7 +487,7 @@ int do_smi(int argc, char **argv)
 
 int do_modprobe(int argc, char **argv)
 {
-    /* Permitted exactly: uvcvideo | -r uvcvideo | nvidia-wmi-ec-backlight | amdgpu | nvidia */
+    /* Permitted exactly: uvcvideo | -r uvcvideo | nvidia-wmi-ec-backlight | amdgpu | nvidia | nvidia-drm */
     int ok = 0;
     if (argc == 3 && strcmp(argv[2], "uvcvideo") == 0)
         ok = 1;
@@ -496,6 +496,8 @@ int do_modprobe(int argc, char **argv)
     else if (argc == 3 && strcmp(argv[2], "amdgpu") == 0)
         ok = 1;
     else if (argc == 3 && strcmp(argv[2], "nvidia") == 0)
+        ok = 1;
+    else if (argc == 3 && strcmp(argv[2], "nvidia-drm") == 0)
         ok = 1;
     else if (argc == 4 && strcmp(argv[2], "-r") == 0 && strcmp(argv[3], "uvcvideo") == 0)
         ok = 1;
