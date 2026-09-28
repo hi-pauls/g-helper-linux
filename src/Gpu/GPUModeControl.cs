@@ -867,9 +867,10 @@ public class GPUModeControl
             if (!_switchLock.Wait(0))
                 return GpuSwitchResult.AlreadySet;
 
+            GpuSwitchResult result;
             try
             {
-                return ExecuteDisableDgpu();
+                result = ExecuteDisableDgpu();
             }
             catch (Exception ex)
             {
@@ -880,6 +881,16 @@ public class GPUModeControl
             {
                 _switchLock.Release();
             }
+
+            // nvidia_drm keeps nvidia_modeset referenced for as long as it is loaded, so
+            // "driver active" is reported even when no process uses the dGPU. With no
+            // holders the confirmation protects nobody: release the way "Switch Now" does.
+            if (result == GpuSwitchResult.DriverBlocking && NvidiaProcessScanner.CountHolders() == 0)
+            {
+                Logger.WriteLine("GPUModeControl: AutoGpuSwitch - no process holds the dGPU, releasing driver for Eco");
+                result = TryReleaseAndSwitch();
+            }
+            return result;
         }
 
         return GpuSwitchResult.AlreadySet;
