@@ -2682,10 +2682,11 @@ public class GPUModeControl
         {
             // Route through the root helper (helper execv's rmmod, so its
             // stderr/exit propagate verbatim and the parsing below still works).
+            var (escalation, escalationArgs) = PrivilegeHelper.Escalate(SysfsHelper.GpuHelperPath, ["rmmod", module]);
             var psi = new System.Diagnostics.ProcessStartInfo
             {
-                FileName = SysfsHelper.SudoPath,
-                Arguments = $"-n {SysfsHelper.GpuHelperPath} rmmod {module}",
+                FileName = escalation,
+                Arguments = string.Join(' ', escalationArgs),
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,

@@ -268,8 +268,8 @@ public static class NvidiaProcessScanner
         if (!EnsureHelper())
             return null;
 
-        var sudoArgs = new[] { "-n", HelperPath, "list", _selfPid.ToString() };
-        var output = SysfsHelper.RunCommandWithTimeout(SysfsHelper.SudoPath, sudoArgs, 3000);
+        var (escalation, escalationArgs) = PrivilegeHelper.Escalate(HelperPath, ["list", _selfPid.ToString()]);
+        var output = SysfsHelper.RunCommandWithTimeout(escalation, escalationArgs, 3000);
         if (output == null)
             return null; // sudoers rejected or helper failed - fall through to unprivileged scan
 
@@ -1070,8 +1070,8 @@ public static class NvidiaProcessScanner
         {
             if (!File.Exists(HelperPath))
                 return result;
-            var output = SysfsHelper.RunCommandWithTimeout(
-                SysfsHelper.SudoPath, new[] { "-n", HelperPath, "nvml-procs" }, 5000);
+            var (escalation, escalationArgs) = PrivilegeHelper.Escalate(HelperPath, ["nvml-procs"]);
+            var output = SysfsHelper.RunCommandWithTimeout(escalation, escalationArgs, 5000);
             if (output == null)
                 return result;
             foreach (var line in output.Split('\n', StringSplitOptions.RemoveEmptyEntries))

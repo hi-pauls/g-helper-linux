@@ -397,6 +397,14 @@ public static class SysfsHelper
                 Helpers.Logger.WriteLine($"SysfsHelper.WriteAttribute({path}) completed in {sw.ElapsedMilliseconds}ms (slow!)");
             return true;
         }
+        catch (UnauthorizedAccessException) when (PrivilegeHelper.Available)
+        {
+            // Hardware access belongs to ghelperd's account when it is installed.
+            if (PrivilegeHelper.TryWrite(path, value, out var error))
+                return true;
+            Helpers.Logger.WriteLine($"SysfsHelper.WriteAttribute({path}, {value}) via ghelperd failed: {error}");
+            return false;
+        }
         catch (Exception ex)
         {
             Helpers.Logger.WriteLine($"SysfsHelper.WriteAttribute({path}, {value}) failed", ex);
@@ -773,28 +781,19 @@ public static class SysfsHelper
     /// </summary>
     public static string? RunSudoOrPkexec(string command, string[] args, int sudoTimeoutMs = 5000, int pkexecTimeoutMs = 60000, bool allowPkexec = true)
     {
-        var sudoArgs = new string[args.Length + 2];
-        sudoArgs[0] = "-n";
-        sudoArgs[1] = command;
-        Array.Copy(args, 0, sudoArgs, 2, args.Length);
-
-        var (exitCode, stdout, stderr) = RunProcessWithStderr(SudoPath, sudoArgs, sudoTimeoutMs);
+        var (file, escalatedArgs) = PrivilegeHelper.Escalate(command, args);
+        var (exitCode, stdout, stderr) = RunProcessWithStderr(file, escalatedArgs, sudoTimeoutMs);
         if (exitCode == 0)
             return stdout;
 
         // Distinguish sudo auth/permission failure from command-side failure.
-        // sudo (classic and sudo-rs) prefixes its own error messages with "sudo:".
-        // If stderr starts with "sudo:" the issue is permission / auth - pkexec
-        // can help. Any other stderr came from the command itself; re-running via
-        // pkexec would produce the same failure and just add an unnecessary prompt.
-        bool sudoRefused = stderr.StartsWith("sudo:", StringComparison.Ordinal)
-                        || stderr.Contains("not allowed to execute", StringComparison.Ordinal)
-                        || stderr.Contains("may not run sudo", StringComparison.Ordinal);
-
-        if (!sudoRefused)
+        // If the escalation itself refused, pkexec can help. Any other stderr came
+        // from the command itself; re-running via pkexec would produce the same
+        // failure and just add an unnecessary prompt.
+        if (!EscalationRefused(stderr))
         {
             if (!string.IsNullOrEmpty(stderr))
-                Helpers.Logger.WriteLine($"RunCommand({SudoPath} -n {command}) failed (command error, not auth): {stderr.Trim()}");
+                Helpers.Logger.WriteLine($"RunCommand({file} {command}) failed (command error, not auth): {stderr.Trim()}");
             return null;
         }
 
@@ -804,13 +803,22 @@ public static class SysfsHelper
             return null;
         }
 
-        Helpers.Logger.WriteLine($"sudo -n {command} not permitted - falling back to pkexec");
+        Helpers.Logger.WriteLine($"{file} {command} not permitted - falling back to pkexec");
 
         var pkArgs = new string[args.Length + 1];
         pkArgs[0] = command;
         Array.Copy(args, 0, pkArgs, 1, args.Length);
         return RunCommandWithTimeout("pkexec", pkArgs, pkexecTimeoutMs);
     }
+
+    /// <summary>Whether a failed escalation was refused by sudo or ghelperd
+    /// (sudo and sudo-rs prefix their own errors with "sudo:") rather than
+    /// failing in the command itself.</summary>
+    internal static bool EscalationRefused(string stderr) =>
+        stderr.StartsWith("sudo:", StringComparison.Ordinal)
+        || stderr.StartsWith(PrivilegeHelper.RefusalPrefix, StringComparison.Ordinal)
+        || stderr.Contains("not allowed to execute", StringComparison.Ordinal)
+        || stderr.Contains("may not run sudo", StringComparison.Ordinal);
 
     // Polling / auto-apply paths must never pop an auth dialog: with broken
     // sudoers a periodic pkexec fallback becomes an endless prompt loop
@@ -837,19 +845,12 @@ public static class SysfsHelper
     public static (string? stdout, string stderr, int exitCode) RunSudoOrPkexecEx(
         string command, string[] args, int sudoTimeoutMs = 5000, int pkexecTimeoutMs = 60000, bool allowPkexec = true)
     {
-        var sudoArgs = new string[args.Length + 2];
-        sudoArgs[0] = "-n";
-        sudoArgs[1] = command;
-        Array.Copy(args, 0, sudoArgs, 2, args.Length);
-
-        var (exitCode, stdout, stderr) = RunProcessWithStderr(SudoPath, sudoArgs, sudoTimeoutMs);
+        var (file, escalatedArgs) = PrivilegeHelper.Escalate(command, args);
+        var (exitCode, stdout, stderr) = RunProcessWithStderr(file, escalatedArgs, sudoTimeoutMs);
         if (exitCode == 0)
             return (stdout, stderr, 0);
 
-        bool sudoRefused = stderr.StartsWith("sudo:", StringComparison.Ordinal)
-                        || stderr.Contains("not allowed to execute", StringComparison.Ordinal)
-                        || stderr.Contains("may not run sudo", StringComparison.Ordinal);
-        if (!sudoRefused)
+        if (!EscalationRefused(stderr))
             return (null, stderr, exitCode);
 
         if (!allowPkexec)
@@ -873,18 +874,10 @@ public static class SysfsHelper
     public static (string stdout, string stderr, int exitCode) RunSudoOrPkexecRaw(
         string command, string[] args, int sudoTimeoutMs = 5000, int pkexecTimeoutMs = 60000, bool allowPkexec = true)
     {
-        var sudoArgs = new string[args.Length + 2];
-        sudoArgs[0] = "-n";
-        sudoArgs[1] = command;
-        Array.Copy(args, 0, sudoArgs, 2, args.Length);
+        var (file, escalatedArgs) = PrivilegeHelper.Escalate(command, args);
+        var (exitCode, stdout, stderr) = RunProcessWithStderr(file, escalatedArgs, sudoTimeoutMs);
 
-        var (exitCode, stdout, stderr) = RunProcessWithStderr(SudoPath, sudoArgs, sudoTimeoutMs);
-
-        bool sudoRefused = exitCode != 0
-                        && (stderr.StartsWith("sudo:", StringComparison.Ordinal)
-                         || stderr.Contains("not allowed to execute", StringComparison.Ordinal)
-                         || stderr.Contains("may not run sudo", StringComparison.Ordinal));
-        if (!sudoRefused)
+        if (exitCode == 0 || !EscalationRefused(stderr))
             return (stdout, stderr, exitCode);
 
         if (!allowPkexec)

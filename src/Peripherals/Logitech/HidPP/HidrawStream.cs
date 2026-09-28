@@ -65,7 +65,7 @@ internal sealed class HidrawStream : Stream
     /// <summary>Opens the hidraw device at the given path (e.g. /dev/hidraw8).</summary>
     public HidrawStream(string devicePath)
     {
-        _fd = open(devicePath, O_RDWR | O_NONBLOCK);
+        _fd = GHelper.Linux.USB.HidrawHelper.OpenDevice(devicePath, O_RDWR | O_NONBLOCK);
         if (_fd < 0)
         {
             int err = Marshal.GetLastWin32Error();

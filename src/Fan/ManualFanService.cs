@@ -258,9 +258,10 @@ public static class ManualFanService
                 return null;
             string bin = SysfsHelper.GpuHelperPath;
 
+            var (escalation, escalationArgs) = PrivilegeHelper.Escalate(bin, ["ec-fanctl"]);
             var attempts = new List<(string file, string args, int timeoutMs)>
             {
-                ("sudo", $"-n {bin} ec-fanctl", 5000),
+                (escalation, string.Join(' ', escalationArgs), 5000),
             };
             if (interactive)
                 attempts.Add(("pkexec", $"{bin} ec-fanctl", 90000));

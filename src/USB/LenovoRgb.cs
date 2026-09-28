@@ -186,7 +186,7 @@ public static class LenovoRgb
         {
             foreach (var dev in Directory.GetFiles("/dev", "hidraw*"))
             {
-                int fd = open(dev, O_RDWR | O_NONBLOCK);
+                int fd = HidrawHelper.OpenDevice(dev, O_RDWR | O_NONBLOCK);
                 if (fd < 0)
                     continue;
                 try
@@ -245,7 +245,7 @@ public static class LenovoRgb
 
         foreach (var path in paths)
         {
-            int fd = open(path, O_RDWR | O_NONBLOCK);
+            int fd = HidrawHelper.OpenDevice(path, O_RDWR | O_NONBLOCK);
             if (fd < 0)
                 continue;
             try
@@ -269,7 +269,7 @@ public static class LenovoRgb
         var paths = _workingPath != null ? new[] { _workingPath } : _candidatePaths.ToArray();
         foreach (var path in paths)
         {
-            int fd = open(path, O_RDWR | O_NONBLOCK);
+            int fd = HidrawHelper.OpenDevice(path, O_RDWR | O_NONBLOCK);
             if (fd < 0)
                 continue;
             try

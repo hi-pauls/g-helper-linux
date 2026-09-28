@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using GHelper.Linux.Platform.Linux;
 
 namespace GHelper.Linux.USB;
 
@@ -89,8 +90,30 @@ public static class HidrawHelper
     [DllImport("libc", SetLastError = true)]
     private static extern nint write(int fd, byte[] buf, nint count);
 
+    [DllImport("libc", SetLastError = true)]
+    private static extern int fcntl(int fd, int cmd, int arg);
+
     private const int O_RDWR = 0x02;
     private const int O_NONBLOCK = 0x800;
+    private const int EACCES = 13;
+    private const int F_GETFL = 3;
+    private const int F_SETFL = 4;
+
+    /// <summary>
+    /// open() a hidraw node, through ghelperd when the kernel refuses and the
+    /// helper is installed. The daemon hands out vendor interfaces only, never
+    /// a node that carries a keyboard collection.
+    /// </summary>
+    internal static int OpenDevice(string path, int flags)
+    {
+        int fd = open(path, flags);
+        if (fd >= 0 || Marshal.GetLastPInvokeError() != EACCES || !PrivilegeHelper.Available)
+            return fd;
+        fd = PrivilegeHelper.OpenHidraw(path);
+        if (fd >= 0 && (flags & O_NONBLOCK) != 0)
+            fcntl(fd, F_SETFL, fcntl(fd, F_GETFL, 0) | O_NONBLOCK);
+        return fd;
+    }
 
     // Structs
 
@@ -378,7 +401,7 @@ public static class HidrawHelper
             int fd = -1;
             try
             {
-                fd = open(path, O_RDWR);
+                fd = OpenDevice(path, O_RDWR);
                 if (fd < 0)
                 {
                     Helpers.Logger.WriteLine($"HidrawHelper: cannot open {path}: errno={Marshal.GetLastPInvokeError()}");
@@ -453,7 +476,7 @@ public static class HidrawHelper
         int fd = -1;
         try
         {
-            fd = open(path, O_RDWR);
+            fd = OpenDevice(path, O_RDWR);
             if (fd < 0)
             {
                 Helpers.Logger.WriteLine($"AURA GetFeature: cannot open {path}: errno={Marshal.GetLastPInvokeError()}");
@@ -527,7 +550,7 @@ public static class HidrawHelper
         int fd = -1;
         try
         {
-            fd = open(path, O_RDWR);
+            fd = OpenDevice(path, O_RDWR);
             if (fd < 0)
             {
                 Helpers.Logger.WriteLine($"MKey probe: cannot open {path}: errno={Marshal.GetLastPInvokeError()}");
@@ -581,7 +604,7 @@ public static class HidrawHelper
         {
             if (dev.Product != 0x19B6 || !dev.IsI2C)
                 continue;
-            int fd = open(dev.Path, O_RDWR);
+            int fd = OpenDevice(dev.Path, O_RDWR);
             if (fd < 0)
                 continue;
             try
@@ -604,11 +627,11 @@ public static class HidrawHelper
         int fd = -1;
         try
         {
-            fd = open(path, O_RDWR | O_NONBLOCK);
+            fd = OpenDevice(path, O_RDWR | O_NONBLOCK);
             if (fd < 0)
             {
                 // Try read-only for probing (might lack write perms)
-                fd = open(path, 0 /* O_RDONLY */ | O_NONBLOCK);
+                fd = OpenDevice(path, 0 /* O_RDONLY */ | O_NONBLOCK);
                 if (fd < 0)
                     return null;
             }
@@ -819,7 +842,7 @@ public static class HidrawHelper
             int fd = -1;
             try
             {
-                fd = open(path, O_RDWR);
+                fd = OpenDevice(path, O_RDWR);
                 if (fd < 0)
                 {
                     Helpers.Logger.WriteLine($"HidrawHelper: cannot open {path}: errno={Marshal.GetLastPInvokeError()}");

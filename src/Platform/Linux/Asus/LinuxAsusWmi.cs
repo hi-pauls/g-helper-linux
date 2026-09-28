@@ -34,7 +34,7 @@ public class LinuxAsusWmi : IHardwareControl
     private string? _batteryDir;
     private Thread? _eventThread;
     private volatile bool _eventListening;
-    private readonly List<FileStream> _eventStreams = new();  // Track open evdev streams for Dispose()
+    private readonly List<Stream> _eventStreams = new();  // Track open evdev streams for Dispose()
 
     private readonly Dictionary<string, int> _lastWrittenInt = new();
     private int _lastThrottlePolicy = int.MinValue;
@@ -1372,6 +1372,16 @@ public class LinuxAsusWmi : IHardwareControl
 
             if (streams.Count == 0)
             {
+                // With ghelperd the input nodes belong to its account; it forwards
+                // the hotkeys only, never typing.
+                if (PrivilegeHelper.Available && PrivilegeHelper.OpenHotkeys() is { } stream)
+                {
+                    Helpers.Logger.WriteLine("Listening for ASUS events through ghelperd");
+                    lock (_eventStreams)
+                        _eventStreams.Add(stream);
+                    ReadEventsFromStream(stream, "ghelperd");
+                    return;
+                }
                 Helpers.Logger.WriteLine("WARNING: Could not open any ASUS input devices");
                 return;
             }
@@ -1385,7 +1395,7 @@ public class LinuxAsusWmi : IHardwareControl
             // If only one device, use simple blocking read
             if (streams.Count == 1)
             {
-                ReadEventsFromStream(streams[0]);
+                ReadEventsFromStream(streams[0], streams[0].Name);
             }
             else
             {
@@ -1394,7 +1404,7 @@ public class LinuxAsusWmi : IHardwareControl
                 foreach (var stream in streams)
                 {
                     var s = stream; // capture for closure
-                    var t = new Thread(() => ReadEventsFromStream(s))
+                    var t = new Thread(() => ReadEventsFromStream(s, s.Name))
                     {
                         Name = $"AsusWmi-Reader-{Path.GetFileName(s.Name)}",
                         IsBackground = true
@@ -1423,7 +1433,7 @@ public class LinuxAsusWmi : IHardwareControl
         }
     }
 
-    private void ReadEventsFromStream(FileStream fs)
+    private void ReadEventsFromStream(Stream fs, string name)
     {
         var buffer = new byte[24]; // sizeof(struct input_event) on 64-bit
         int pendingScanCode = -1;  // EV_MSC/MSC_SCAN value, reset after each EV_KEY
@@ -1487,7 +1497,7 @@ public class LinuxAsusWmi : IHardwareControl
         catch (Exception ex)
         {
             if (_eventListening)
-                Helpers.Logger.WriteLine($"Reader error on {fs.Name}: {ex.Message}");
+                Helpers.Logger.WriteLine($"Reader error on {name}: {ex.Message}");
         }
     }
 
