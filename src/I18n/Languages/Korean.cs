@@ -895,6 +895,7 @@ public static class Korean
         ["sysfiles_diff_close"] = "닫기",
         ["sysfiles_remove"] = "제거",
         ["sysfiles_name_gpu_helper"] = "GPU 권한 도우미",
+        ["sysfiles_name_ghelperd"] = "권한 분리 하드웨어 도우미",
         ["sysfiles_name_ryzenadj"] = "AMD 전력 튜닝 도구 (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "GPU 차단 도우미 스크립트",
         ["sysfiles_name_gpu_boot_script"] = "GPU 부팅 스크립트",

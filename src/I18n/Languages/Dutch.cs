@@ -892,6 +892,7 @@ public static class Dutch
         ["sysfiles_diff_close"] = "Sluiten",
         ["sysfiles_remove"] = "Verwijderen",
         ["sysfiles_name_gpu_helper"] = "Bevoorrechte GPU-helper",
+        ["sysfiles_name_ghelperd"] = "Hardwarehelper met gescheiden rechten",
         ["sysfiles_name_ryzenadj"] = "AMD-energieafstemmingstool (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "GPU-blokkeerhulpscript",
         ["sysfiles_name_gpu_boot_script"] = "GPU-opstartscript",

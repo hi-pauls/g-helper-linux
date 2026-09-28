@@ -892,6 +892,7 @@ public static class Ukrainian
         ["sysfiles_diff_close"] = "Закрити",
         ["sysfiles_remove"] = "Вилучити",
         ["sysfiles_name_gpu_helper"] = "Привілейований помічник GPU",
+        ["sysfiles_name_ghelperd"] = "Апаратний помічник з розділеними привілеями",
         ["sysfiles_name_ryzenadj"] = "Інструмент налаштування живлення AMD (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "Скрипт блокування GPU",
         ["sysfiles_name_gpu_boot_script"] = "Скрипт завантаження GPU",

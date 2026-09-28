@@ -947,6 +947,7 @@ public static class Malay
         ["sysfiles_diff_close"] = "Tutup",
         ["sysfiles_remove"] = "Buang",
         ["sysfiles_name_gpu_helper"] = "Pembantu istimewa GPU",
+        ["sysfiles_name_ghelperd"] = "Pembantu perkakasan dengan keistimewaan berasingan",
         ["sysfiles_name_ryzenadj"] = "Alat penalaan kuasa AMD (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "Skrip pembantu sekat GPU",
         ["sysfiles_name_gpu_boot_script"] = "Skrip but GPU",

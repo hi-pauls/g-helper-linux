@@ -947,6 +947,7 @@ public static class Slovak
         ["sysfiles_diff_close"] = "Zavrieť",
         ["sysfiles_remove"] = "Odstrániť",
         ["sysfiles_name_gpu_helper"] = "Privilegovaný pomocník GPU",
+        ["sysfiles_name_ghelperd"] = "Hardvérový pomocník s oddelenými oprávneniami",
         ["sysfiles_name_ryzenadj"] = "Nástroj ladenia napájania AMD (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "Skript pomocníka blokovania GPU",
         ["sysfiles_name_gpu_boot_script"] = "Skript GPU pri štarte",

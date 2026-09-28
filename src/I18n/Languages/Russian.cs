@@ -892,6 +892,7 @@ public static class Russian
         ["sysfiles_diff_close"] = "Закрыть",
         ["sysfiles_remove"] = "Убрать",
         ["sysfiles_name_gpu_helper"] = "Привилегированный помощник GPU",
+        ["sysfiles_name_ghelperd"] = "Аппаратный помощник с разделёнными привилегиями",
         ["sysfiles_name_ryzenadj"] = "Инструмент настройки питания AMD (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "Скрипт блокировки GPU",
         ["sysfiles_name_gpu_boot_script"] = "Скрипт загрузки GPU",

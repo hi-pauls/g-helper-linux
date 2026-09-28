@@ -135,6 +135,12 @@ public static partial class Installer
     private const string PostIconCache = "iconcache";
     private const string PostModprobe = "modprobe";
     private const string PostInputGroup = "inputgroup";
+    private const string PostHelper = "ghelperd";
+
+    private const string HelperSocket = "ghelperd.socket";
+    private const string HelperService = "ghelperd.service";
+    private const string HelperAccount = HelperRules.Account;
+    private const string HelperClientGroup = HelperRules.ClientGroup;
 
     // uinput is loaded everywhere (FN-Lock remapper, NumberPad, OSK).
     // i2c-dev is added only where the NumberPad can use it (see
@@ -284,6 +290,43 @@ public static partial class Installer
                 Mode = M644, RootRequired = true, RootOwned = true,
                 Post = [PostModprobe],
             },
+            // Privilege separation (opt-in, see PrivilegeHelperMode). The account
+            // file comes first so the group exists before the udev rules use it.
+            new ManagedFile
+            {
+                Id = "ghelper_sysusers", NameKey = "sysfiles_name_ghelperd",
+                Resource = "ghelper-sysusers.conf", Dest = HelperSysusersPath,
+                Mode = M644, RootRequired = true, RootOwned = true,
+                Post = [PostHelper], AppliesWhen = PrivilegeHelperApplies,
+            },
+            new ManagedFile
+            {
+                Id = "ghelperd", NameKey = "sysfiles_name_ghelperd",
+                Resource = "ghelperd", Dest = "/opt/ghelper/ghelperd",
+                Mode = M755, RootRequired = true, RootOwned = true,
+                Post = [PostHelper], AppliesWhen = PrivilegeHelperApplies,
+            },
+            new ManagedFile
+            {
+                Id = "ghelper_run", NameKey = "sysfiles_name_ghelperd",
+                Resource = "ghelper-run", Dest = PrivilegeHelper.RunPath,
+                Mode = M755, RootRequired = true, RootOwned = true,
+                AppliesWhen = PrivilegeHelperApplies,
+            },
+            new ManagedFile
+            {
+                Id = "ghelperd_socket", NameKey = "sysfiles_name_ghelperd",
+                Resource = HelperSocket, Dest = "/etc/systemd/system/" + HelperSocket,
+                Mode = M644, RootRequired = true, RootOwned = true,
+                Post = [PostHelper], AppliesWhen = PrivilegeHelperApplies,
+            },
+            new ManagedFile
+            {
+                Id = "ghelperd_service", NameKey = "sysfiles_name_ghelperd",
+                Resource = HelperService, Dest = "/etc/systemd/system/" + HelperService,
+                Mode = M644, RootRequired = true, RootOwned = true,
+                Post = [PostHelper], AppliesWhen = PrivilegeHelperApplies,
+            },
         ];
     }
 
@@ -293,9 +336,10 @@ public static partial class Installer
     /// cannot use it (non-ASUS or ASUS without NumberPad).</summary>
     private static List<string> ModulesForThisMachine()
     {
-        var modules = new List<string>(CommonModules);
+        // Privilege separation serves neither uinput nor i2c (see HelperRules).
+        var modules = PrivilegeHelperMode ? new List<string>() : new List<string>(CommonModules);
         bool per = UdevPerMachineMode;
-        if (!per || (Helpers.AppConfig.IsAsusDevice() && NumberPadHardwarePresent()))
+        if (!PrivilegeHelperMode && (!per || (Helpers.AppConfig.IsAsusDevice() && NumberPadHardwarePresent())))
             modules.Add("i2c-dev");
         if (Helpers.AppConfig.IsLenovoDevice())
             modules.AddRange(LenovoModules);
@@ -342,6 +386,29 @@ public static partial class Installer
     private static bool UdevPerMachineMode =>
         _udevPerMachineOverride || Helpers.AppConfig.Is("udev_per_machine");
 
+    /// <summary>Set by --privilege-helper in the pkexec re-exec.</summary>
+    private static bool _privilegeHelperOverride;
+
+    /// <summary>
+    /// Opt-in privilege separation ("privilege_helper"): hardware access goes to
+    /// the ghelperd account instead of every user. The udev rules grant its
+    /// group rather than 0666, sudoers grants the root helpers to that account
+    /// alone, and the app talks to the daemon (see PrivilegeHelper). Off keeps
+    /// upstream's direct-access install.
+    ///
+    /// Once installed it follows the system, not the caller's config: a repair
+    /// run as root, or by a user without the setting, must never turn the
+    /// account-limited rules back into world-writable ones. Removing the
+    /// helper's files is what switches it off.
+    /// </summary>
+    internal static bool PrivilegeHelperMode =>
+        _privilegeHelperOverride || Helpers.AppConfig.Is("privilege_helper") || File.Exists(HelperSysusersPath);
+
+    private const string HelperSysusersPath = "/etc/sysusers.d/ghelper.conf";
+
+    private static bool PrivilegeHelperApplies() =>
+        PrivilegeHelperMode && !Platform.Linux.NixOS.IsNixOS;
+
     /// <summary>
     /// Udev rules for this install. Off-mode (default) writes the full
     /// embedded template, marker comments stripped, so plain-copy script
@@ -356,6 +423,9 @@ public static partial class Installer
         var raw = GetEmbedded("90-ghelper.rules");
         if (raw == null)
             return null;
+
+        if (PrivilegeHelperMode)
+            return Encoding.UTF8.GetBytes(HelperRules.Transform(Encoding.UTF8.GetString(raw)));
 
         HashSet<string>? include = null;
         if (UdevPerMachineMode)
@@ -412,13 +482,18 @@ public static partial class Installer
     /// </summary>
     private static byte[] SudoersContent()
     {
+        // Privilege separation: only ghelperd's account may run the helpers;
+        // the app reaches them through the daemon.
+        string who = PrivilegeHelperMode ? HelperAccount : "ALL";
         var sb = new StringBuilder();
-        sb.Append("# G-Helper: passwordless access to the root-owned helper binaries\n");
+        sb.Append(PrivilegeHelperMode
+            ? "# G-Helper: passwordless access to the root-owned helper binaries, for ghelperd only\n"
+            : "# G-Helper: passwordless access to the root-owned helper binaries\n");
         if (BootGpuApplies())
-            sb.Append("ALL ALL=(root) NOPASSWD: /usr/local/lib/ghelper/gpu-block-helper.sh\n");
-        sb.Append($"ALL ALL=(root) NOPASSWD: {GpuHelperDest}\n");
+            sb.Append($"{who} ALL=(root) NOPASSWD: /usr/local/lib/ghelper/gpu-block-helper.sh\n");
+        sb.Append($"{who} ALL=(root) NOPASSWD: {GpuHelperDest}\n");
         if (RyzenApplies())
-            sb.Append($"ALL ALL=(root) NOPASSWD: {RyzenadjDest}\n");
+            sb.Append($"{who} ALL=(root) NOPASSWD: {RyzenadjDest}\n");
         return Encoding.UTF8.GetBytes(sb.ToString());
     }
 
@@ -460,7 +535,7 @@ public static partial class Installer
         {
             if (!File.Exists(f.Dest) && File.Exists(LegacySudoersPath))
                 return FileState.Outdated;
-            return ProbeSudoers();
+            return PrivilegeHelperMode ? ProbeHelperSudo() : ProbeSudoers();
         }
 
         // Autostart is owned by the app's own autostart toggle (AppConfig +
@@ -640,6 +715,24 @@ public static partial class Installer
     ///     to satisfy listpw), sudo is missing, or the probe times out.
     /// Does NOT execute the helpers - <c>-l</c> only reports policy.
     /// </summary>
+    /// <summary>
+    /// Privilege-separated counterpart of <see cref="ProbeSudoers"/>: the rule
+    /// belongs to ghelperd's account, which this user cannot inspect, so it is
+    /// checked by having the daemon run a read-only helper command.
+    /// </summary>
+    private static FileState ProbeHelperSudo()
+    {
+        PrivilegeHelper.Invalidate();
+        if (!PrivilegeHelper.Available || !File.Exists(GpuHelperDest))
+            return FileState.Missing;
+        var (_, stderr, exitCode) = SysfsHelper.RunSudoOrPkexecEx(
+            GpuHelperDest, ["list", Environment.ProcessId.ToString()], allowPkexec: false);
+        if (exitCode == 0)
+            return FileState.Ok;
+        Logger.WriteLine($"Installer: helper sudo probe failed ({exitCode}): {stderr}");
+        return SysfsHelper.EscalationRefused(stderr) ? FileState.Missing : FileState.Unknown;
+    }
+
     private static FileState ProbeSudoers()
     {
         string listing;
@@ -912,6 +1005,8 @@ public static partial class Installer
                 psi.ArgumentList.Add("--udev-compat");
             if (Helpers.AppConfig.Is("udev_per_machine"))
                 psi.ArgumentList.Add("--udev-per-machine");
+            if (Helpers.AppConfig.Is("privilege_helper"))
+                psi.ArgumentList.Add("--privilege-helper");
 
             using var p = Process.Start(psi);
             if (p == null)
@@ -1056,6 +1151,8 @@ public static partial class Installer
                 _udevCompatOverride = true;
             if (args[i] == "--udev-per-machine")
                 _udevPerMachineOverride = true;
+            if (args[i] == "--privilege-helper")
+                _privilegeHelperOverride = true;
         }
 
         var byId = Manifest.ToDictionary(f => f.Id);
@@ -1146,6 +1243,8 @@ public static partial class Installer
         // not left with a dangling enablement symlink.
         if (ids.Contains("gpu_boot_service"))
             Run("systemctl", "disable", BootService);
+        if (ids.Contains("ghelperd_socket") || ids.Contains("ghelperd_service"))
+            Run("systemctl", "disable", "--now", HelperSocket, HelperService);
 
         foreach (var id in ids)
         {
@@ -1221,6 +1320,22 @@ public static partial class Installer
 
     private static void RunPostActions(HashSet<string> post)
     {
+        // Before udev: the rules hand files to the ghelper group.
+        if (post.Contains(PostHelper))
+        {
+            Run("systemd-sysusers", HelperSysusersPath);
+            // The invoking user may talk to the daemon; pkexec exports its uid.
+            // The daemon reads membership from the group database, so it
+            // applies without a new login.
+            string? uidRaw = Environment.GetEnvironmentVariable("PKEXEC_UID")
+                ?? Environment.GetEnvironmentVariable("SUDO_UID");
+            if (int.TryParse(uidRaw, out int uid) && uid > 0)
+                Run("sh", "-c",
+                    $"u=$(getent passwd {uid} | cut -d: -f1); [ -n \"$u\" ] && usermod -aG {HelperClientGroup} \"$u\" || true");
+            Run("systemctl", "daemon-reload");
+            Run("systemctl", "enable", "--now", HelperSocket);
+            Run("systemctl", "try-restart", HelperService);
+        }
         if (post.Contains(PostUdev))
         {
             Run("udevadm", "control", "--reload-rules");
@@ -1242,7 +1357,7 @@ public static partial class Installer
             foreach (var module in ModulesForThisMachine())
                 Run("modprobe", module);
         }
-        if (post.Contains(PostInputGroup) && !UdevCompatMode)
+        if (post.Contains(PostInputGroup) && !UdevCompatMode && !PrivilegeHelperMode)
         {
             // The uaccess/0660 uinput+i2c rules need the invoking user in the
             // "input" group on setups without logind seats. pkexec exports
@@ -1287,7 +1402,7 @@ public static partial class Installer
     {
         if (post.Contains(PostUdev))
             Run("udevadm", "control", "--reload-rules");
-        if (post.Contains(PostSystemd))
+        if (post.Contains(PostSystemd) || post.Contains(PostHelper))
             Run("systemctl", "daemon-reload");
         if (post.Contains(PostDesktopDb))
             Run("update-desktop-database", "/usr/share/applications");

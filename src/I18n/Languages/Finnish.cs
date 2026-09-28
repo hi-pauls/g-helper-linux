@@ -895,6 +895,7 @@ public static class Finnish
         ["sysfiles_diff_close"] = "Sulje",
         ["sysfiles_remove"] = "Poista",
         ["sysfiles_name_gpu_helper"] = "Etuoikeutettu GPU-apuohjelma",
+        ["sysfiles_name_ghelperd"] = "Oikeuksiltaan erotettu laitteistoapuohjelma",
         ["sysfiles_name_ryzenadj"] = "AMD-virranviritystyökalu (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "GPU-eston apuskripti",
         ["sysfiles_name_gpu_boot_script"] = "GPU-käynnistysskripti",

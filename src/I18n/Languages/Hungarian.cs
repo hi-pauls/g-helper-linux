@@ -892,6 +892,7 @@ public static class Hungarian
         ["sysfiles_diff_close"] = "Bezárás",
         ["sysfiles_remove"] = "Törlés",
         ["sysfiles_name_gpu_helper"] = "Privilegizált GPU-segéd",
+        ["sysfiles_name_ghelperd"] = "Elkülönített jogosultságú hardversegéd",
         ["sysfiles_name_ryzenadj"] = "AMD energiahangoló eszköz (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "GPU-blokkoló segédszkript",
         ["sysfiles_name_gpu_boot_script"] = "GPU-indítószkript",

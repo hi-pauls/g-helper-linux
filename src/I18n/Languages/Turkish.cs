@@ -892,6 +892,7 @@ public static class Turkish
         ["sysfiles_diff_close"] = "Kapat",
         ["sysfiles_remove"] = "Kaldır",
         ["sysfiles_name_gpu_helper"] = "Ayrıcalıklı GPU yardımcısı",
+        ["sysfiles_name_ghelperd"] = "Ayrılmış yetkili donanım yardımcısı",
         ["sysfiles_name_ryzenadj"] = "AMD güç ayarlama aracı (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "GPU engelleme yardımcı betiği",
         ["sysfiles_name_gpu_boot_script"] = "GPU önyükleme betiği",

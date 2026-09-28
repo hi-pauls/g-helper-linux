@@ -947,6 +947,7 @@ public static class Filipino
         ["sysfiles_diff_close"] = "Isara",
         ["sysfiles_remove"] = "Alisin",
         ["sysfiles_name_gpu_helper"] = "GPU privileged helper",
+        ["sysfiles_name_ghelperd"] = "Hardware helper na may hiwalay na pribilehiyo",
         ["sysfiles_name_ryzenadj"] = "Kasangkapan sa pag-tune ng AMD power (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "GPU block helper script",
         ["sysfiles_name_gpu_boot_script"] = "GPU boot script",

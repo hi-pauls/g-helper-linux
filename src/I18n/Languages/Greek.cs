@@ -895,6 +895,7 @@ public static class Greek
         ["sysfiles_diff_close"] = "Κλείσιμο",
         ["sysfiles_remove"] = "Κατάργηση",
         ["sysfiles_name_gpu_helper"] = "Προνομιούχος βοηθός GPU",
+        ["sysfiles_name_ghelperd"] = "Βοηθός υλικού με διαχωρισμένα δικαιώματα",
         ["sysfiles_name_ryzenadj"] = "Εργαλείο ρύθμισης ισχύος AMD (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "Σενάριο βοηθού αποκλεισμού GPU",
         ["sysfiles_name_gpu_boot_script"] = "Σενάριο εκκίνησης GPU",

@@ -892,6 +892,7 @@ public static class Romanian
         ["sysfiles_diff_close"] = "Închide",
         ["sysfiles_remove"] = "Elimină",
         ["sysfiles_name_gpu_helper"] = "Asistent GPU privilegiat",
+        ["sysfiles_name_ghelperd"] = "Asistent hardware cu privilegii separate",
         ["sysfiles_name_ryzenadj"] = "Instrument de reglare a alimentării AMD (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "Script asistent de blocare GPU",
         ["sysfiles_name_gpu_boot_script"] = "Script de pornire GPU",

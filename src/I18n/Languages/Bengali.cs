@@ -947,6 +947,7 @@ public static class Bengali
         ["sysfiles_diff_close"] = "বন্ধ করুন",
         ["sysfiles_remove"] = "সরান",
         ["sysfiles_name_gpu_helper"] = "GPU বিশেষাধিকারপ্রাপ্ত হেল্পার",
+        ["sysfiles_name_ghelperd"] = "পৃথক-অধিকার হার্ডওয়্যার হেল্পার",
         ["sysfiles_name_ryzenadj"] = "AMD পাওয়ার টিউনিং টুল (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "GPU ব্লক হেল্পার স্ক্রিপ্ট",
         ["sysfiles_name_gpu_boot_script"] = "GPU বুট স্ক্রিপ্ট",

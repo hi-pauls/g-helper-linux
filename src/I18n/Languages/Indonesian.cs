@@ -895,6 +895,7 @@ public static class Indonesian
         ["sysfiles_diff_close"] = "Tutup",
         ["sysfiles_remove"] = "Hapus",
         ["sysfiles_name_gpu_helper"] = "Pembantu GPU istimewa",
+        ["sysfiles_name_ghelperd"] = "Pembantu perangkat keras dengan hak terpisah",
         ["sysfiles_name_ryzenadj"] = "Alat penyetelan daya AMD (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "Skrip pembantu pemblokiran GPU",
         ["sysfiles_name_gpu_boot_script"] = "Skrip boot GPU",

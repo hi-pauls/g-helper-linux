@@ -895,6 +895,7 @@ public static class Arabic
         ["sysfiles_diff_close"] = "إغلاق",
         ["sysfiles_remove"] = "إزالة",
         ["sysfiles_name_gpu_helper"] = "مساعد GPU المميز",
+        ["sysfiles_name_ghelperd"] = "مساعد العتاد بصلاحيات منفصلة",
         ["sysfiles_name_ryzenadj"] = "أداة ضبط طاقة AMD (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "سكربت مساعد حظر GPU",
         ["sysfiles_name_gpu_boot_script"] = "سكربت إقلاع GPU",

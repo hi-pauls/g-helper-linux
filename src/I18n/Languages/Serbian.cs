@@ -895,6 +895,7 @@ public static class Serbian
         ["sysfiles_diff_close"] = "Затвори",
         ["sysfiles_remove"] = "Уклони",
         ["sysfiles_name_gpu_helper"] = "Привилеговани GPU помоћник",
+        ["sysfiles_name_ghelperd"] = "Хардверски помоћник са одвојеним привилегијама",
         ["sysfiles_name_ryzenadj"] = "Алатка за подешавање AMD напајања (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "Скрипта за блокирање GPU-а",
         ["sysfiles_name_gpu_boot_script"] = "Скрипта за покретање GPU-а",

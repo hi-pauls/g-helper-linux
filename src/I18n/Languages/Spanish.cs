@@ -892,6 +892,7 @@ public static class Spanish
         ["sysfiles_diff_close"] = "Cerrar",
         ["sysfiles_remove"] = "Quitar",
         ["sysfiles_name_gpu_helper"] = "Asistente GPU privilegiado",
+        ["sysfiles_name_ghelperd"] = "Asistente de hardware con privilegios separados",
         ["sysfiles_name_ryzenadj"] = "Herramienta de ajuste de energía AMD (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "Script auxiliar de bloqueo de GPU",
         ["sysfiles_name_gpu_boot_script"] = "Script de arranque de GPU",

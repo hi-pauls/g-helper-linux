@@ -950,6 +950,7 @@ public static class English
         ["sysfiles_diff_close"] = "Close",
         ["sysfiles_remove"] = "Remove",
         ["sysfiles_name_gpu_helper"] = "GPU privileged helper",
+        ["sysfiles_name_ghelperd"] = "Privilege-separated hardware helper",
         ["sysfiles_name_ryzenadj"] = "AMD power tuning tool (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "GPU block helper script",
         ["sysfiles_name_gpu_boot_script"] = "GPU boot script",

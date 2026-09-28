@@ -892,6 +892,7 @@ public static class Polish
         ["sysfiles_diff_close"] = "Zamknij",
         ["sysfiles_remove"] = "Usuń",
         ["sysfiles_name_gpu_helper"] = "Uprzywilejowany pomocnik GPU",
+        ["sysfiles_name_ghelperd"] = "Pomocnik sprzętowy z rozdzielonymi uprawnieniami",
         ["sysfiles_name_ryzenadj"] = "Narzędzie strojenia zasilania AMD (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "Skrypt pomocniczy blokowania GPU",
         ["sysfiles_name_gpu_boot_script"] = "Skrypt rozruchowy GPU",

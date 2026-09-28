@@ -892,6 +892,7 @@ public static class German
         ["sysfiles_diff_close"] = "Schließen",
         ["sysfiles_remove"] = "Entfernen",
         ["sysfiles_name_gpu_helper"] = "Privilegierter GPU-Helfer",
+        ["sysfiles_name_ghelperd"] = "Hardware-Helfer mit getrennten Rechten",
         ["sysfiles_name_ryzenadj"] = "AMD-Leistungs-Tuning-Tool (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "GPU-Block-Hilfsskript",
         ["sysfiles_name_gpu_boot_script"] = "GPU-Boot-Skript",

@@ -895,6 +895,7 @@ public static class Swedish
         ["sysfiles_diff_close"] = "Stäng",
         ["sysfiles_remove"] = "Ta bort",
         ["sysfiles_name_gpu_helper"] = "Privilegierad GPU-hjälpare",
+        ["sysfiles_name_ghelperd"] = "Hårdvaruhjälpare med separerade rättigheter",
         ["sysfiles_name_ryzenadj"] = "AMD-strömjusteringsverktyg (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "GPU-blockeringshjälpskript",
         ["sysfiles_name_gpu_boot_script"] = "GPU-startskript",

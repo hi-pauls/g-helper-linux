@@ -947,6 +947,7 @@ public static class Hindi
         ["sysfiles_diff_close"] = "बंद करें",
         ["sysfiles_remove"] = "हटाएँ",
         ["sysfiles_name_gpu_helper"] = "GPU विशेषाधिकार प्राप्त सहायक",
+        ["sysfiles_name_ghelperd"] = "पृथक विशेषाधिकार वाला हार्डवेयर सहायक",
         ["sysfiles_name_ryzenadj"] = "AMD पावर ट्यूनिंग टूल (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "GPU ब्लॉक सहायक स्क्रिप्ट",
         ["sysfiles_name_gpu_boot_script"] = "GPU बूट स्क्रिप्ट",

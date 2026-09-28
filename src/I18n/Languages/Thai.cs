@@ -895,6 +895,7 @@ public static class Thai
         ["sysfiles_diff_close"] = "ปิด",
         ["sysfiles_remove"] = "นำออก",
         ["sysfiles_name_gpu_helper"] = "ตัวช่วย GPU แบบมีสิทธิ์พิเศษ",
+        ["sysfiles_name_ghelperd"] = "ตัวช่วยฮาร์ดแวร์แบบแยกสิทธิ์",
         ["sysfiles_name_ryzenadj"] = "เครื่องมือปรับพลังงาน AMD (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "สคริปต์ตัวช่วยบล็อก GPU",
         ["sysfiles_name_gpu_boot_script"] = "สคริปต์บูต GPU",

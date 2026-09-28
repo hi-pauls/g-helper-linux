@@ -947,6 +947,7 @@ public static class Slovenian
         ["sysfiles_diff_close"] = "Zapri",
         ["sysfiles_remove"] = "Odstrani",
         ["sysfiles_name_gpu_helper"] = "Privilegirani pomočnik GPU",
+        ["sysfiles_name_ghelperd"] = "Strojni pomočnik z ločenimi pravicami",
         ["sysfiles_name_ryzenadj"] = "Orodje za uravnavanje napajanja AMD (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "Skript pomočnika za blokiranje GPU",
         ["sysfiles_name_gpu_boot_script"] = "Zagonski skript GPU",

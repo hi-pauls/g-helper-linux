@@ -892,6 +892,7 @@ public static class Czech
         ["sysfiles_diff_close"] = "Zavřít",
         ["sysfiles_remove"] = "Odebrat",
         ["sysfiles_name_gpu_helper"] = "Privilegovaný pomocník GPU",
+        ["sysfiles_name_ghelperd"] = "Hardwarový pomocník s oddělenými oprávněními",
         ["sysfiles_name_ryzenadj"] = "Nástroj ladění napájení AMD (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "Pomocný skript blokování GPU",
         ["sysfiles_name_gpu_boot_script"] = "Spouštěcí skript GPU",

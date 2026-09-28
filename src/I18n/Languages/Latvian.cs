@@ -947,6 +947,7 @@ public static class Latvian
         ["sysfiles_diff_close"] = "Aizvērt",
         ["sysfiles_remove"] = "Noņemt",
         ["sysfiles_name_gpu_helper"] = "GPU priviliģētais palīgs",
+        ["sysfiles_name_ghelperd"] = "Aparatūras palīgs ar nodalītām tiesībām",
         ["sysfiles_name_ryzenadj"] = "AMD jaudas regulēšanas rīks (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "GPU bloķēšanas palīgskripts",
         ["sysfiles_name_gpu_boot_script"] = "GPU startēšanas skripts",

@@ -895,6 +895,7 @@ public static class Japanese
         ["sysfiles_diff_close"] = "閉じる",
         ["sysfiles_remove"] = "削除",
         ["sysfiles_name_gpu_helper"] = "GPU 特権ヘルパー",
+        ["sysfiles_name_ghelperd"] = "権限分離ハードウェアヘルパー",
         ["sysfiles_name_ryzenadj"] = "AMD 電力調整ツール (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "GPU ブロックヘルパースクリプト",
         ["sysfiles_name_gpu_boot_script"] = "GPU 起動スクリプト",

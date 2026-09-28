@@ -895,6 +895,7 @@ public static class Norwegian
         ["sysfiles_diff_close"] = "Lukk",
         ["sysfiles_remove"] = "Fjern",
         ["sysfiles_name_gpu_helper"] = "Privilegert GPU-hjelper",
+        ["sysfiles_name_ghelperd"] = "Maskinvarehjelper med atskilte rettigheter",
         ["sysfiles_name_ryzenadj"] = "AMD-strømjusteringsverktøy (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "GPU-blokkeringshjelpeskript",
         ["sysfiles_name_gpu_boot_script"] = "GPU-oppstartsskript",

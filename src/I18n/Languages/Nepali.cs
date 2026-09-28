@@ -947,6 +947,7 @@ public static class Nepali
         ["sysfiles_diff_close"] = "बन्द गर्नुहोस्",
         ["sysfiles_remove"] = "हटाउनुहोस्",
         ["sysfiles_name_gpu_helper"] = "GPU विशेषाधिकार प्राप्त सहायक",
+        ["sysfiles_name_ghelperd"] = "छुट्टै विशेषाधिकार भएको हार्डवेयर सहायक",
         ["sysfiles_name_ryzenadj"] = "AMD पावर ट्युनिङ उपकरण (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "GPU ब्लक सहायक स्क्रिप्ट",
         ["sysfiles_name_gpu_boot_script"] = "GPU बुट स्क्रिप्ट",

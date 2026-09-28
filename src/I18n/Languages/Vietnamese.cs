@@ -892,6 +892,7 @@ public static class Vietnamese
         ["sysfiles_diff_close"] = "Đóng",
         ["sysfiles_remove"] = "Xóa",
         ["sysfiles_name_gpu_helper"] = "Trình trợ giúp GPU đặc quyền",
+        ["sysfiles_name_ghelperd"] = "Trình trợ giúp phần cứng tách biệt đặc quyền",
         ["sysfiles_name_ryzenadj"] = "Công cụ tinh chỉnh nguồn AMD (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "Tập lệnh trợ giúp chặn GPU",
         ["sysfiles_name_gpu_boot_script"] = "Tập lệnh khởi động GPU",

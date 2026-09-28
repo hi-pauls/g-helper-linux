@@ -1,0 +1,19 @@
+[Unit]
+Description=G-Helper privilege-separated hardware helper
+Documentation=https://github.com/utajum/g-helper-linux
+Requires=ghelperd.socket
+
+[Service]
+User=ghelper
+Group=ghelper
+ExecStart=/opt/ghelper/ghelperd
+# The udev grants and the sudoers entry for this account are its only
+# privileges. ProtectSystem and NoNewPrivileges stay off: the root helpers run
+# through sudo inside this service's namespace and write /etc and /usr/share.
+ProtectHome=yes
+PrivateTmp=yes
+ProtectHostname=yes
+ProtectClock=yes
+LockPersonality=yes
+RestrictRealtime=yes
+RestrictAddressFamilies=AF_UNIX AF_NETLINK

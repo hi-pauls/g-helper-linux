@@ -895,6 +895,7 @@ public static class ChineseSimplified
         ["sysfiles_diff_close"] = "关闭",
         ["sysfiles_remove"] = "移除",
         ["sysfiles_name_gpu_helper"] = "GPU 特权助手",
+        ["sysfiles_name_ghelperd"] = "权限分离的硬件助手",
         ["sysfiles_name_ryzenadj"] = "AMD 电源调节工具 (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "GPU 阻止助手脚本",
         ["sysfiles_name_gpu_boot_script"] = "GPU 启动脚本",

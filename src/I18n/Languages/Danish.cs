@@ -895,6 +895,7 @@ public static class Danish
         ["sysfiles_diff_close"] = "Luk",
         ["sysfiles_remove"] = "Fjern",
         ["sysfiles_name_gpu_helper"] = "Privilegeret GPU-hjælper",
+        ["sysfiles_name_ghelperd"] = "Hardwarehjælper med adskilte rettigheder",
         ["sysfiles_name_ryzenadj"] = "AMD-strømjusteringsværktøj (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "GPU-blokeringshjælpescript",
         ["sysfiles_name_gpu_boot_script"] = "GPU-opstartsscript",

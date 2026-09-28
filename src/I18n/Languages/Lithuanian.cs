@@ -947,6 +947,7 @@ public static class Lithuanian
         ["sysfiles_diff_close"] = "Užverti",
         ["sysfiles_remove"] = "Pašalinti",
         ["sysfiles_name_gpu_helper"] = "Privilegijuotas GPU pagalbinis",
+        ["sysfiles_name_ghelperd"] = "Aparatinės įrangos pagalbinis su atskirtomis teisėmis",
         ["sysfiles_name_ryzenadj"] = "AMD galios derinimo įrankis (ryzenadj)",
         ["sysfiles_name_gpu_block_helper"] = "GPU blokavimo pagalbinis skriptas",
         ["sysfiles_name_gpu_boot_script"] = "GPU paleidimo skriptas",
